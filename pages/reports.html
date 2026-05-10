@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reports — DashKit Pro</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dark.css">
+  <link rel="stylesheet" href="../css/light.css">
+  <script>(function(){document.documentElement.setAttribute('data-theme',localStorage.getItem('dashkit_theme')||'dark')})();</script>
+</head>
+<body>
+<div class="app-layout">
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">D</div>
+      <span class="logo-text">Dash<span>Kit</span> Pro</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a class="nav-item" href="dashboard.html"><i data-lucide="layout-dashboard"></i><span class="nav-label">Dashboard</span></a>
+      <a class="nav-item" href="analytics.html"><i data-lucide="bar-chart-2"></i><span class="nav-label">Analytics</span></a>
+      <a class="nav-item" href="users.html"><i data-lucide="users"></i><span class="nav-label">Users</span><span class="badge">2.4k</span></a>
+      <div class="nav-section-label" style="margin-top:8px;">Content</div>
+      <a class="nav-item active" href="reports.html"><i data-lucide="file-text"></i><span class="nav-label">Reports</span></a>
+      <a class="nav-item" href="billing.html"><i data-lucide="credit-card"></i><span class="nav-label">Billing</span></a>
+      <div class="nav-section-label" style="margin-top:8px;">System</div>
+      <a class="nav-item" href="settings.html"><i data-lucide="settings"></i><span class="nav-label">Settings</span></a>
+      <a class="nav-item" href="#"><i data-lucide="life-buoy"></i><span class="nav-label">Help & Support</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="nav-item" style="cursor:pointer;" onclick="window.location.href='login.html'">
+        <i data-lucide="log-out"></i><span class="nav-label">Sign out</span>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="app-header">
+      <button class="header-toggle" id="sidebarToggle"><i data-lucide="menu" style="width:20px;height:20px;"></i></button>
+      <div class="header-search">
+        <span class="search-icon"><i data-lucide="search"></i></span>
+        <input class="search-input" type="text" id="reportSearch" placeholder="Search anything..." oninput="filterReports()">
+      </div>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn"><i data-lucide="sun"></i></button>
+        <div class="dropdown-wrapper">
+          <button class="icon-btn" id="notifBtn"><i data-lucide="bell" style="width:18px;height:18px;"></i><span class="notif-dot" id="notifDot"></span></button>
+          <div class="notif-panel" id="notifPanel">
+            <div class="notif-header">Notifications<span class="notif-clear" id="notifClear">Mark all read</span></div>
+            <div class="notif-item unread"><span class="notif-dot-unread"></span><div><div class="notif-text"><strong>New user registered</strong> — Alice Johnson joined</div><div class="notif-time">2 minutes ago</div></div></div>
+            <div class="notif-item unread"><span class="notif-dot-unread"></span><div><div class="notif-text"><strong>Revenue milestone reached</strong> — $100k MRR achieved!</div><div class="notif-time">1 hour ago</div></div></div>
+            <div class="notif-item unread"><span class="notif-dot-unread"></span><div><div class="notif-text"><strong>System update completed</strong> — v2.4.1 deployed</div><div class="notif-time">3 hours ago</div></div></div>
+            <div class="notif-item"><span class="notif-dot-unread" style="visibility:hidden;"></span><div><div class="notif-text"><strong>New report generated</strong> — Monthly Revenue Report ready</div><div class="notif-time">Yesterday</div></div></div>
+            <div class="notif-item"><span class="notif-dot-unread" style="visibility:hidden;"></span><div><div class="notif-text"><strong>Monthly backup complete</strong> — All data backed up</div><div class="notif-time">2 days ago</div></div></div>
+          </div>
+        </div>
+        <div class="dropdown-wrapper">
+          <div class="user-avatar" id="userAvatar">JD</div>
+          <div class="dropdown-menu" id="userDropdown">
+            <div style="padding:12px 14px;border-bottom:1px solid var(--card-border);"><div class="user-dropdown-name" style="font-weight:600;font-size:14px;">John Doe</div><div class="user-dropdown-email" style="font-size:12px;color:var(--text-muted);">john@company.com</div></div>
+            <a class="dropdown-item" href="settings.html"><i data-lucide="settings" style="width:14px;height:14px;"></i> Settings</a>
+            <a class="dropdown-item" href="billing.html"><i data-lucide="credit-card" style="width:14px;height:14px;"></i> Billing</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item danger" href="login.html"><i data-lucide="log-out" style="width:14px;height:14px;"></i> Sign out</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-body">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Reports</h1>
+          <p class="page-subtitle">View, manage, and create data reports</p>
+        </div>
+        <div class="flex gap-2">
+          <button class="btn btn-ghost btn-sm" onclick="exportReportsCSV()">
+            <i data-lucide="download"></i> Export
+          </button>
+          <button class="btn btn-primary btn-sm" onclick="openReportModal()">
+            <i data-lucide="plus"></i> New Report
+          </button>
+        </div>
+      </div>
+
+      <!-- Summary KPIs -->
+      <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:24px;">
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">Total Reports</span>
+            <div class="kpi-icon" style="background:rgba(99,102,241,.15);">
+              <i data-lucide="file-text" style="width:20px;height:20px;color:#6366f1;"></i>
+            </div>
+          </div>
+          <div class="kpi-value">5</div>
+          <div class="kpi-change up"><i data-lucide="trending-up"></i>+2 <span>this month</span></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">Scheduled</span>
+            <div class="kpi-icon" style="background:rgba(34,197,94,.15);">
+              <i data-lucide="calendar" style="width:20px;height:20px;color:#22c55e;"></i>
+            </div>
+          </div>
+          <div class="kpi-value">2</div>
+          <div class="kpi-change up"><i data-lucide="trending-up"></i>Running <span>automatically</span></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">Last Generated</span>
+            <div class="kpi-icon" style="background:rgba(245,158,11,.15);">
+              <i data-lucide="clock" style="width:20px;height:20px;color:#f59e0b;"></i>
+            </div>
+          </div>
+          <div class="kpi-value" style="font-size:20px;">Yesterday</div>
+          <div class="kpi-change up"><i data-lucide="check-circle"></i>Completed <span>on schedule</span></div>
+        </div>
+      </div>
+
+      <!-- Filter tabs -->
+      <div class="users-toolbar" style="margin-bottom:16px;">
+        <div class="filter-tabs">
+          <button class="filter-tab active" onclick="filterByType('all',this)">All</button>
+          <button class="filter-tab" onclick="filterByType('revenue',this)">Revenue</button>
+          <button class="filter-tab" onclick="filterByType('users',this)">Users</button>
+          <button class="filter-tab" onclick="filterByType('analytics',this)">Analytics</button>
+          <button class="filter-tab" onclick="filterByType('custom',this)">Custom</button>
+        </div>
+      </div>
+
+      <!-- Reports Table -->
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div class="table-wrap">
+          <table id="reportsTable">
+            <thead>
+              <tr>
+                <th data-sort="name">Report Name</th>
+                <th data-sort="type">Type</th>
+                <th data-sort="range">Date Range</th>
+                <th data-sort="created">Created</th>
+                <th data-sort="status">Status</th>
+                <th style="cursor:default;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="reportsBody">
+              <tr data-type="revenue">
+                <td>
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:34px;height:34px;border-radius:var(--radius-sm);background:rgba(34,197,94,.15);display:flex;align-items:center;justify-content:center;">
+                      <i data-lucide="dollar-sign" style="width:16px;height:16px;color:#22c55e;"></i>
+                    </div>
+                    <div>
+                      <div class="font-medium">Monthly Revenue Report</div>
+                      <div class="text-xs text-muted">Auto-generated · Monthly</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="badge badge-success">Revenue</span></td>
+                <td class="text-secondary text-sm">Last 30 days</td>
+                <td class="text-secondary text-sm">May 1, 2026</td>
+                <td><span class="badge badge-success">Complete</span></td>
+                <td>
+                  <div class="flex gap-2">
+                    <button class="btn btn-ghost btn-sm" onclick="showToast('Opening report…','info')"><i data-lucide="eye" style="width:14px;height:14px;"></i> View</button>
+                    <button class="btn btn-ghost btn-sm btn-icon" onclick="showToast('Report downloaded!','success')" title="Download"><i data-lucide="download" style="width:14px;height:14px;"></i></button>
+                    <button class="btn btn-sm btn-icon" style="background:rgba(239,68,68,.1);color:#ef4444;border:none;" onclick="deleteReport(this)" title="Delete"><i data-lucide="trash-2" style="width:14px;height:14px;"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr data-type="users">
+                <td>
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:34px;height:34px;border-radius:var(--radius-sm);background:rgba(99,102,241,.15);display:flex;align-items:center;justify-content:center;">
+                      <i data-lucide="users" style="width:16px;height:16px;color:#6366f1;"></i>
+                    </div>
+                    <div>
+                      <div class="font-medium">User Acquisition Report</div>
+                      <div class="text-xs text-muted">Weekly signups + churn</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="badge badge-accent">Users</span></td>
+                <td class="text-secondary text-sm">Last 7 days</td>
+                <td class="text-secondary text-sm">Apr 28, 2026</td>
+                <td><span class="badge badge-success">Complete</span></td>
+                <td>
+                  <div class="flex gap-2">
+                    <button class="btn btn-ghost btn-sm" onclick="showToast('Opening report…','info')"><i data-lucide="eye" style="width:14px;height:14px;"></i> View</button>
+                    <button class="btn btn-ghost btn-sm btn-icon" onclick="showToast('Report downloaded!','success')" title="Download"><i data-lucide="download" style="width:14px;height:14px;"></i></button>
+                    <button class="btn btn-sm btn-icon" style="background:rgba(239,68,68,.1);color:#ef4444;border:none;" onclick="deleteReport(this)" title="Delete"><i data-lucide="trash-2" style="width:14px;height:14px;"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr data-type="analytics">
+                <td>
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:34px;height:34px;border-radius:var(--radius-sm);background:rgba(56,189,248,.15);display:flex;align-items:center;justify-content:center;">
+                      <i data-lucide="bar-chart-2" style="width:16px;height:16px;color:#38bdf8;"></i>
+                    </div>
+                    <div>
+                      <div class="font-medium">Q1 Traffic Analysis</div>
+                      <div class="text-xs text-muted">Sources, sessions, bounce rate</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="badge badge-info">Analytics</span></td>
+                <td class="text-secondary text-sm">Last 90 days</td>
+                <td class="text-secondary text-sm">Apr 15, 2026</td>
+                <td><span class="badge badge-success">Complete</span></td>
+                <td>
+                  <div class="flex gap-2">
+                    <button class="btn btn-ghost btn-sm" onclick="showToast('Opening report…','info')"><i data-lucide="eye" style="width:14px;height:14px;"></i> View</button>
+                    <button class="btn btn-ghost btn-sm btn-icon" onclick="showToast('Report downloaded!','success')" title="Download"><i data-lucide="download" style="width:14px;height:14px;"></i></button>
+                    <button class="btn btn-sm btn-icon" style="background:rgba(239,68,68,.1);color:#ef4444;border:none;" onclick="deleteReport(this)" title="Delete"><i data-lucide="trash-2" style="width:14px;height:14px;"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr data-type="revenue">
+                <td>
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:34px;height:34px;border-radius:var(--radius-sm);background:rgba(245,158,11,.15);display:flex;align-items:center;justify-content:center;">
+                      <i data-lucide="trending-up" style="width:16px;height:16px;color:#f59e0b;"></i>
+                    </div>
+                    <div>
+                      <div class="font-medium">Annual Revenue Forecast</div>
+                      <div class="text-xs text-muted">2026 projection model</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="badge badge-success">Revenue</span></td>
+                <td class="text-secondary text-sm">Last 30 days</td>
+                <td class="text-secondary text-sm">Apr 5, 2026</td>
+                <td><span class="badge badge-warning">Processing</span></td>
+                <td>
+                  <div class="flex gap-2">
+                    <button class="btn btn-ghost btn-sm" style="opacity:.5;cursor:not-allowed;"><i data-lucide="eye" style="width:14px;height:14px;"></i> View</button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="opacity:.5;cursor:not-allowed;" title="Download"><i data-lucide="download" style="width:14px;height:14px;"></i></button>
+                    <button class="btn btn-sm btn-icon" style="background:rgba(239,68,68,.1);color:#ef4444;border:none;" onclick="deleteReport(this)" title="Delete"><i data-lucide="trash-2" style="width:14px;height:14px;"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr data-type="custom">
+                <td>
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:34px;height:34px;border-radius:var(--radius-sm);background:rgba(167,139,250,.15);display:flex;align-items:center;justify-content:center;">
+                      <i data-lucide="sliders" style="width:16px;height:16px;color:#a78bfa;"></i>
+                    </div>
+                    <div>
+                      <div class="font-medium">Enterprise Dashboard Export</div>
+                      <div class="text-xs text-muted">Custom KPI snapshot</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="badge badge-muted">Custom</span></td>
+                <td class="text-secondary text-sm">Last 7 days</td>
+                <td class="text-secondary text-sm">Mar 22, 2026</td>
+                <td><span class="badge badge-danger">Failed</span></td>
+                <td>
+                  <div class="flex gap-2">
+                    <button class="btn btn-ghost btn-sm" onclick="showToast('Retrying report generation…','warning')"><i data-lucide="refresh-cw" style="width:14px;height:14px;"></i> Retry</button>
+                    <button class="btn btn-sm btn-icon" style="background:rgba(239,68,68,.1);color:#ef4444;border:none;" onclick="deleteReport(this)" title="Delete"><i data-lucide="trash-2" style="width:14px;height:14px;"></i></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination">
+          <span class="pagination-info">Showing 1–5 of 5 reports</span>
+          <div class="pagination-btns">
+            <button class="page-btn active">1</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- New Report Modal (shared) -->
+<div class="modal-backdrop" id="reportModal" onclick="closeReportModal(event)">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-header">
+      <span class="modal-title">Create New Report</span>
+      <button class="modal-close" onclick="closeReportModal()"><i data-lucide="x" style="width:18px;height:18px;"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Report name <span style="color:var(--danger);">*</span></label>
+        <input type="text" class="form-control" id="reportName" placeholder="e.g. Monthly Revenue Report">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Report type</label>
+        <select class="form-control" id="reportType">
+          <option value="">Select a type…</option>
+          <option>Revenue</option>
+          <option>Users</option>
+          <option>Analytics</option>
+          <option>Custom</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Date range</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button type="button" class="date-range-btn active" onclick="selectRange(7,this)">Last 7 days</button>
+          <button type="button" class="date-range-btn" onclick="selectRange(30,this)">Last 30 days</button>
+          <button type="button" class="date-range-btn" onclick="selectRange(90,this)">Last 90 days</button>
+        </div>
+        <input type="hidden" id="reportRange" value="7">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description <span class="text-muted" style="font-weight:400;">(optional)</span></label>
+        <textarea class="form-control" id="reportDesc" rows="3" placeholder="Brief description of what this report covers…"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeReportModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="createReport()">
+        <i data-lucide="file-plus"></i> Create Report
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/sidebar.js"></script>
+<script>
+lucide.createIcons();
+
+/* ── Report Modal ── */
+function openReportModal() {
+  document.getElementById('reportModal').classList.add('open');
+  setTimeout(() => document.getElementById('reportName').focus(), 150);
+}
+function closeReportModal(e) {
+  if (e && e.target !== document.getElementById('reportModal')) return;
+  document.getElementById('reportModal').classList.remove('open');
+  document.getElementById('reportName').value = '';
+  document.getElementById('reportDesc').value  = '';
+}
+function selectRange(days, btn) {
+  document.querySelectorAll('#reportModal .date-range-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('reportRange').value = days;
+}
+function createReport() {
+  const name = document.getElementById('reportName').value.trim();
+  const type = document.getElementById('reportType').value || 'Custom';
+  const range = document.getElementById('reportRange').value;
+  if (!name) {
+    document.getElementById('reportName').classList.add('error');
+    document.getElementById('reportName').focus();
+    return;
+  }
+  document.getElementById('reportName').classList.remove('error');
+  document.getElementById('reportModal').classList.remove('open');
+
+  /* Inject new row into table */
+  const tbody = document.getElementById('reportsBody');
+  const badgeMap = { Revenue:'badge-success', Users:'badge-accent', Analytics:'badge-info', Custom:'badge-muted' };
+  const iconMap  = { Revenue:'dollar-sign', Users:'users', Analytics:'bar-chart-2', Custom:'sliders' };
+  const colorMap = { Revenue:'rgba(34,197,94,.15)', Users:'rgba(99,102,241,.15)', Analytics:'rgba(56,189,248,.15)', Custom:'rgba(167,139,250,.15)' };
+  const iconColor= { Revenue:'#22c55e', Users:'#6366f1', Analytics:'#38bdf8', Custom:'#a78bfa' };
+  const today = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  const tr = document.createElement('tr');
+  tr.setAttribute('data-type', type.toLowerCase());
+  tr.innerHTML = `
+    <td>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:34px;height:34px;border-radius:var(--radius-sm);background:${colorMap[type]};display:flex;align-items:center;justify-content:center;">
+          <i data-lucide="${iconMap[type]}" style="width:16px;height:16px;color:${iconColor[type]};"></i>
+        </div>
+        <div><div class="font-medium">${name}</div><div class="text-xs text-muted">Last ${range} days</div></div>
+      </div>
+    </td>
+    <td><span class="badge ${badgeMap[type]}">${type}</span></td>
+    <td class="text-secondary text-sm">Last ${range} days</td>
+    <td class="text-secondary text-sm">${today}</td>
+    <td><span class="badge badge-warning">Processing</span></td>
+    <td>
+      <div class="flex gap-2">
+        <button class="btn btn-ghost btn-sm" onclick="showToast('Opening report…','info')"><i data-lucide="eye" style="width:14px;height:14px;"></i> View</button>
+        <button class="btn btn-sm btn-icon" style="background:rgba(239,68,68,.1);color:#ef4444;border:none;" onclick="deleteReport(this)"><i data-lucide="trash-2" style="width:14px;height:14px;"></i></button>
+      </div>
+    </td>`;
+  tbody.prepend(tr);
+  lucide.createIcons();
+  showToast('Report created successfully!', 'success');
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('reportModal').classList.remove('open');
+});
+
+/* ── Delete report ── */
+function deleteReport(btn) {
+  if (confirm('Delete this report?')) {
+    btn.closest('tr').remove();
+    showToast('Report deleted', 'danger');
+  }
+}
+
+/* ── Filter by type ── */
+let activeType = 'all';
+function filterByType(type, btn) {
+  activeType = type;
+  document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyReportFilter();
+}
+function filterReports() { applyReportFilter(); }
+function applyReportFilter() {
+  const q = document.getElementById('reportSearch').value.toLowerCase();
+  document.querySelectorAll('#reportsBody tr').forEach(row => {
+    const rowType = row.dataset.type || '';
+    const text    = row.textContent.toLowerCase();
+    const typeOk  = activeType === 'all' || rowType === activeType;
+    const searchOk= !q || text.includes(q);
+    row.style.display = typeOk && searchOk ? '' : 'none';
+  });
+}
+
+/* ── Export CSV ── */
+function exportReportsCSV() {
+  showToast('Exporting…', 'info', 1500);
+  setTimeout(() => {
+    const date = new Date().toISOString().split('T')[0];
+    const rows = [['Report Name','Type','Date Range','Created','Status']];
+    document.querySelectorAll('#reportsBody tr').forEach(row => {
+      const cells = Array.from(row.querySelectorAll('td'));
+      if (cells.length < 5) return;
+      rows.push([
+        cells[0].querySelector('.font-medium')?.textContent.trim() || '',
+        cells[1].textContent.trim(),
+        cells[2].textContent.trim(),
+        cells[3].textContent.trim(),
+        cells[4].textContent.trim()
+      ]);
+    });
+    const csv  = rows.map(r => r.map(v => `"${v}"`).join(',')).join('\n');
+    const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
+    const url  = URL.createObjectURL(blob);
+    const a    = Object.assign(document.createElement('a'), { href:url, download:`dashkit-reports-${date}.csv` });
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('Export complete!', 'success', 2000);
+  }, 800);
+}
+
+/* Sidebar notifications link */
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('sidebarNotifLink')?.addEventListener('click', e => {
+    e.preventDefault();
+    document.getElementById('notifPanel').classList.toggle('open');
+  });
+  document.getElementById('notifClear')?.addEventListener('click', () => {
+    document.querySelectorAll('.notif-item.unread').forEach(el => {
+      el.classList.remove('unread');
+      const dot = el.querySelector('.notif-dot-unread');
+      if (dot) dot.style.visibility = 'hidden';
+    });
+    document.getElementById('notifDot').style.display = 'none';
+    const badge = document.getElementById('sidebarNotifBadge');
+    if (badge) badge.style.display = 'none';
+  });
+});
+</script>
+</body>
+</html>

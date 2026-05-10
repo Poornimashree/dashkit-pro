@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up — DashKit Pro</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dark.css">
+  <link rel="stylesheet" href="../css/light.css">
+  <script>
+    (function(){
+      const t = localStorage.getItem('dashkit_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+</head>
+<body>
+  <div class="auth-layout">
+    <div class="auth-card fade-in">
+
+      <div class="auth-logo">
+        <div class="auth-logo-icon">D</div>
+        <span class="auth-logo-name">Dash<span>Kit</span> Pro</span>
+      </div>
+
+      <h1 class="auth-title">Create your account</h1>
+      <p class="auth-subtitle">Start your 14-day free trial, no credit card required</p>
+
+      <!-- Social -->
+      <div class="social-btns">
+        <button class="social-btn" onclick="showToast('Google OAuth not configured in demo','info')">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+          Sign up with Google
+        </button>
+        <button class="social-btn" onclick="showToast('GitHub OAuth not configured in demo','info')">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+          </svg>
+          Sign up with GitHub
+        </button>
+      </div>
+
+      <div class="auth-divider">or sign up with email</div>
+
+      <!-- Signup Form -->
+      <form class="auth-form" id="signupForm" onsubmit="handleSignup(event)">
+        <div class="grid-2" style="gap:12px;">
+          <div class="form-group">
+            <label class="form-label">First name</label>
+            <input type="text" class="form-control" id="firstName" placeholder="John" required autocomplete="given-name">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last name</label>
+            <input type="text" class="form-control" id="lastName" placeholder="Doe" required autocomplete="family-name">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Work email</label>
+          <div class="input-wrapper">
+            <span class="input-icon-left"><i data-lucide="mail"></i></span>
+            <input type="email" class="form-control" id="signupEmail" placeholder="you@company.com" required autocomplete="email">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <div class="input-wrapper">
+            <span class="input-icon-left"><i data-lucide="lock"></i></span>
+            <input type="password" class="form-control has-right-icon" id="signupPassword"
+              placeholder="Min. 8 characters"
+              required minlength="8" autocomplete="new-password"
+              oninput="checkPasswordStrength(this.value)">
+            <span class="input-icon-right toggle-password" id="pwToggle2"
+              onclick="togglePassword('signupPassword','pwToggle2')"
+              role="button" aria-label="Toggle password visibility">
+              <i data-lucide="eye"></i>
+            </span>
+          </div>
+          <!-- Strength bar -->
+          <div id="strengthBar" style="height:4px;border-radius:99px;background:var(--card-border);margin-top:8px;overflow:hidden;">
+            <div id="strengthFill" style="height:100%;width:0;border-radius:99px;transition:width .3s ease,background .3s ease;"></div>
+          </div>
+          <p id="strengthLabel" class="form-hint" style="margin-top:4px;"></p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Confirm password</label>
+          <div class="input-wrapper">
+            <span class="input-icon-left"><i data-lucide="shield-check"></i></span>
+            <input type="password" class="form-control" id="confirmPassword" placeholder="Repeat password" required autocomplete="new-password">
+          </div>
+        </div>
+
+        <label class="checkbox-wrap" style="align-items:flex-start;gap:12px;">
+          <input type="checkbox" id="terms" required>
+          <span class="checkbox-box" style="margin-top:2px;"></span>
+          <span>I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></span>
+        </label>
+
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:12px;">
+          <i data-lucide="user-plus"></i>
+          Create account
+        </button>
+      </form>
+
+      <p class="auth-footer">
+        Already have an account? <a href="login.html">Sign in</a>
+      </p>
+
+      <div style="text-align:center;margin-top:16px;">
+        <button id="themeToggle" class="icon-btn" title="Toggle theme" style="margin:auto;">
+          <i data-lucide="sun"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    lucide.createIcons();
+
+    function togglePassword(inputId, toggleId) {
+      const input  = document.getElementById(inputId);
+      const toggle = document.getElementById(toggleId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        toggle.innerHTML = '<i data-lucide="eye-off"></i>';
+      } else {
+        input.type = 'password';
+        toggle.innerHTML = '<i data-lucide="eye"></i>';
+      }
+      lucide.createIcons();
+    }
+
+    function checkPasswordStrength(val) {
+      const fill  = document.getElementById('strengthFill');
+      const label = document.getElementById('strengthLabel');
+      let score = 0;
+      if (val.length >= 8) score++;
+      if (/[A-Z]/.test(val)) score++;
+      if (/[0-9]/.test(val)) score++;
+      if (/[^A-Za-z0-9]/.test(val)) score++;
+
+      const levels = [
+        { w: '25%', color: '#ef4444', text: 'Weak' },
+        { w: '50%', color: '#f59e0b', text: 'Fair' },
+        { w: '75%', color: '#38bdf8', text: 'Good' },
+        { w: '100%', color: '#22c55e', text: 'Strong' }
+      ];
+      const l = levels[score - 1] || { w: '0%', color: 'transparent', text: '' };
+      fill.style.width    = l.w;
+      fill.style.background = l.color;
+      label.textContent   = l.text;
+      label.style.color   = l.color;
+    }
+
+    function handleSignup(e) {
+      e.preventDefault();
+      const pw1 = document.getElementById('signupPassword').value;
+      const pw2 = document.getElementById('confirmPassword').value;
+      if (pw1 !== pw2) {
+        showToast('Passwords do not match', 'danger');
+        document.getElementById('confirmPassword').classList.add('error');
+        return;
+      }
+
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName  = document.getElementById('lastName').value.trim();
+      const email     = document.getElementById('signupEmail').value.trim();
+      localStorage.setItem('dashkit_user', JSON.stringify({
+        firstName, lastName,
+        name: [firstName, lastName].filter(Boolean).join(' '),
+        email
+      }));
+
+      const btn = e.target.querySelector('[type=submit]');
+      btn.disabled = true;
+      btn.innerHTML = '<i data-lucide="loader-2" style="animation:spin .8s linear infinite;"></i> Creating account…';
+      lucide.createIcons();
+      setTimeout(() => { window.location.href = 'dashboard.html'; }, 1400);
+    }
+
+    const style = document.createElement('style');
+    style.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>

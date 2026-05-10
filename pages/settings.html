@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings — DashKit Pro</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dark.css">
+  <link rel="stylesheet" href="../css/light.css">
+  <script>(function(){document.documentElement.setAttribute('data-theme',localStorage.getItem('dashkit_theme')||'dark')})();</script>
+</head>
+<body>
+<div class="app-layout">
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">D</div>
+      <span class="logo-text">Dash<span>Kit</span> Pro</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a class="nav-item" href="dashboard.html"><i data-lucide="layout-dashboard"></i><span class="nav-label">Dashboard</span></a>
+      <a class="nav-item" href="analytics.html"><i data-lucide="bar-chart-2"></i><span class="nav-label">Analytics</span></a>
+      <a class="nav-item" href="users.html"><i data-lucide="users"></i><span class="nav-label">Users</span><span class="badge">2.4k</span></a>
+      <div class="nav-section-label" style="margin-top:8px;">Content</div>
+      <a class="nav-item" href="reports.html"><i data-lucide="file-text"></i><span class="nav-label">Reports</span></a>
+      <a class="nav-item" href="billing.html"><i data-lucide="credit-card"></i><span class="nav-label">Billing</span></a>
+      <div class="nav-section-label" style="margin-top:8px;">System</div>
+      <a class="nav-item active" href="settings.html"><i data-lucide="settings"></i><span class="nav-label">Settings</span></a>
+      <a class="nav-item" href="#"><i data-lucide="life-buoy"></i><span class="nav-label">Help & Support</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="nav-item" style="cursor:pointer;" onclick="window.location.href='login.html'">
+        <i data-lucide="log-out"></i><span class="nav-label">Sign out</span>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="app-header">
+      <button class="header-toggle" id="sidebarToggle"><i data-lucide="menu" style="width:20px;height:20px;"></i></button>
+      <div class="header-search">
+        <span class="search-icon"><i data-lucide="search"></i></span>
+        <input class="search-input" type="text" placeholder="Search anything...">
+      </div>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn"><i data-lucide="sun"></i></button>
+        <div class="dropdown-wrapper">
+          <button class="icon-btn" id="notifBtn"><i data-lucide="bell" style="width:18px;height:18px;"></i><span class="notif-dot"></span></button>
+          <div class="notif-panel" id="notifPanel">
+            <div class="notif-header">Notifications<span class="notif-clear" id="notifClear">Mark all read</span></div>
+            <div class="notif-item unread"><span class="notif-dot-unread"></span><div><div class="notif-text"><strong>Settings saved</strong> — Profile updated successfully</div><div class="notif-time">Just now</div></div></div>
+          </div>
+        </div>
+        <div class="dropdown-wrapper">
+          <div class="user-avatar" id="userAvatar">JD</div>
+          <div class="dropdown-menu" id="userDropdown">
+            <div style="padding:12px 14px;border-bottom:1px solid var(--card-border);"><div class="user-dropdown-name" style="font-weight:600;font-size:14px;">John Doe</div><div class="user-dropdown-email" style="font-size:12px;color:var(--text-muted);">john@company.com</div></div>
+            <a class="dropdown-item" href="settings.html"><i data-lucide="settings" style="width:14px;height:14px;"></i> Settings</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item danger" href="login.html"><i data-lucide="log-out" style="width:14px;height:14px;"></i> Sign out</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-body">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Settings</h1>
+          <p class="page-subtitle">Manage your account, preferences, and billing</p>
+        </div>
+      </div>
+
+      <div class="settings-layout">
+
+        <!-- Settings Nav -->
+        <div class="card" style="padding:12px;">
+          <nav class="settings-nav">
+            <div class="settings-nav-item active" data-section="profileSection">
+              <i data-lucide="user"></i> Profile
+            </div>
+            <div class="settings-nav-item" data-section="passwordSection">
+              <i data-lucide="lock"></i> Password
+            </div>
+            <div class="settings-nav-item" data-section="notifSection">
+              <i data-lucide="bell"></i> Notifications
+            </div>
+            <div class="settings-nav-item" data-section="appearanceSection">
+              <i data-lucide="palette"></i> Appearance
+            </div>
+            <div class="settings-nav-item" data-section="billingSection">
+              <i data-lucide="credit-card"></i> Billing
+            </div>
+            <div class="settings-nav-item" data-section="apiSection">
+              <i data-lucide="key"></i> API Keys
+            </div>
+            <div class="settings-nav-item" data-section="dangerSection">
+              <i data-lucide="alert-triangle" style="color:var(--danger);"></i>
+              <span style="color:var(--danger);">Danger Zone</span>
+            </div>
+          </nav>
+        </div>
+
+        <!-- Settings Content -->
+        <div>
+
+          <!-- Profile -->
+          <div class="settings-section active card" id="profileSection">
+            <div class="section-title">Profile Information</div>
+            <div class="section-desc">Update your personal details and public profile</div>
+
+            <div class="avatar-upload">
+              <div class="avatar-large">JD</div>
+              <div class="avatar-upload-info">
+                <button class="btn btn-ghost btn-sm" onclick="showToast('Avatar upload coming soon','info')">
+                  <i data-lucide="upload"></i> Upload photo
+                </button>
+                <p>JPG, PNG or GIF · Max 2MB</p>
+              </div>
+            </div>
+
+            <div class="grid-2" style="gap:16px;margin-bottom:16px;">
+              <div class="form-group">
+                <label class="form-label">First name</label>
+                <input type="text" class="form-control" value="John" id="profileFirstName">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Last name</label>
+                <input type="text" class="form-control" value="Doe" id="profileLastName">
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:16px;">
+              <label class="form-label">Email address</label>
+              <div class="input-wrapper">
+                <span class="input-icon-left"><i data-lucide="mail"></i></span>
+                <input type="email" class="form-control" value="john@company.com" id="profileEmail">
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:16px;">
+              <label class="form-label">Job title</label>
+              <input type="text" class="form-control" value="Senior Developer" placeholder="e.g. Product Manager">
+            </div>
+
+            <div class="form-group" style="margin-bottom:16px;">
+              <label class="form-label">Company</label>
+              <input type="text" class="form-control" value="Acme Corp" placeholder="Your company name">
+            </div>
+
+            <div class="form-group" style="margin-bottom:24px;">
+              <label class="form-label">Bio</label>
+              <textarea class="form-control" rows="3" placeholder="Tell us about yourself…">Building great SaaS products. Based in San Francisco.</textarea>
+            </div>
+
+            <button class="btn btn-primary" onclick="saveProfile()">
+              <i data-lucide="save"></i> Save changes
+            </button>
+          </div>
+
+          <!-- Password -->
+          <div class="settings-section card" id="passwordSection">
+            <div class="section-title">Change Password</div>
+            <div class="section-desc">Use a strong password you don't use elsewhere</div>
+
+            <div class="form-group" style="margin-bottom:16px;">
+              <label class="form-label">Current password</label>
+              <div class="input-wrapper">
+                <span class="input-icon-left"><i data-lucide="lock"></i></span>
+                <input type="password" class="form-control" placeholder="••••••••">
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom:16px;">
+              <label class="form-label">New password</label>
+              <div class="input-wrapper">
+                <span class="input-icon-left"><i data-lucide="lock"></i></span>
+                <input type="password" class="form-control" placeholder="Min. 8 characters" id="newPw" oninput="checkPw(this.value)">
+              </div>
+              <div style="height:4px;border-radius:99px;background:var(--card-border);margin-top:8px;overflow:hidden;">
+                <div id="pwStrengthFill" style="height:100%;width:0;border-radius:99px;transition:width .3s,background .3s;"></div>
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom:24px;">
+              <label class="form-label">Confirm new password</label>
+              <div class="input-wrapper">
+                <span class="input-icon-left"><i data-lucide="shield-check"></i></span>
+                <input type="password" class="form-control" placeholder="Repeat new password">
+              </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="showToast('Password updated successfully!','success')">
+              <i data-lucide="key"></i> Update password
+            </button>
+          </div>
+
+          <!-- Notifications -->
+          <div class="settings-section card" id="notifSection">
+            <div class="section-title">Notification Preferences</div>
+            <div class="section-desc">Choose what emails and alerts you receive</div>
+
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <div class="toggle-wrap">
+                <div class="toggle-info">
+                  <div class="toggle-title">Email digest</div>
+                  <div class="toggle-desc">Weekly summary of your account activity</div>
+                </div>
+                <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+              </div>
+              <div class="settings-divider"></div>
+
+              <div class="toggle-wrap">
+                <div class="toggle-info">
+                  <div class="toggle-title">New user signups</div>
+                  <div class="toggle-desc">Alert when a new user joins your platform</div>
+                </div>
+                <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+              </div>
+              <div class="settings-divider"></div>
+
+              <div class="toggle-wrap">
+                <div class="toggle-info">
+                  <div class="toggle-title">Revenue milestones</div>
+                  <div class="toggle-desc">Notify when revenue hits key thresholds</div>
+                </div>
+                <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+              </div>
+              <div class="settings-divider"></div>
+
+              <div class="toggle-wrap">
+                <div class="toggle-info">
+                  <div class="toggle-title">Security alerts</div>
+                  <div class="toggle-desc">Login attempts, password changes, 2FA events</div>
+                </div>
+                <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+              </div>
+              <div class="settings-divider"></div>
+
+              <div class="toggle-wrap">
+                <div class="toggle-info">
+                  <div class="toggle-title">Marketing emails</div>
+                  <div class="toggle-desc">Product updates, tips, and promotional content</div>
+                </div>
+                <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+              </div>
+              <div class="settings-divider"></div>
+
+              <div class="toggle-wrap">
+                <div class="toggle-info">
+                  <div class="toggle-title">Browser notifications</div>
+                  <div class="toggle-desc">Real-time push notifications in your browser</div>
+                </div>
+                <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+              </div>
+            </div>
+
+            <div style="margin-top:24px;">
+              <button class="btn btn-primary" onclick="showToast('Notification preferences saved!','success')">
+                <i data-lucide="save"></i> Save preferences
+              </button>
+            </div>
+          </div>
+
+          <!-- Appearance -->
+          <div class="settings-section card" id="appearanceSection">
+            <div class="section-title">Appearance</div>
+            <div class="section-desc">Customize how DashKit Pro looks</div>
+
+            <div style="margin-bottom:24px;">
+              <div class="form-label" style="margin-bottom:12px;">Theme</div>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:500px;">
+                <div id="themeDark" onclick="setThemeOption('dark')"
+                  style="border:2px solid var(--accent);border-radius:var(--radius);padding:16px;cursor:pointer;background:#0f1117;text-align:center;">
+                  <div style="width:100%;height:40px;background:#1a1d27;border-radius:6px;margin-bottom:8px;"></div>
+                  <span style="font-size:13px;font-weight:500;color:#e2e8f0;">Dark</span>
+                </div>
+                <div id="themeLight" onclick="setThemeOption('light')"
+                  style="border:2px solid var(--card-border);border-radius:var(--radius);padding:16px;cursor:pointer;background:#f1f5f9;text-align:center;">
+                  <div style="width:100%;height:40px;background:#fff;border-radius:6px;margin-bottom:8px;border:1px solid #e2e8f0;"></div>
+                  <span style="font-size:13px;font-weight:500;color:#0f172a;">Light</span>
+                </div>
+                <div id="themeSystem" onclick="setThemeOption('system')"
+                  style="border:2px solid var(--card-border);border-radius:var(--radius);padding:16px;cursor:pointer;background:linear-gradient(135deg,#0f1117 50%,#f1f5f9 50%);text-align:center;">
+                  <div style="width:100%;height:40px;background:linear-gradient(135deg,#1a1d27 50%,#fff 50%);border-radius:6px;margin-bottom:8px;"></div>
+                  <span style="font-size:13px;font-weight:500;color:var(--text-primary);">System</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:16px;max-width:280px;">
+              <label class="form-label">Accent color</label>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
+                <div onclick="setAccent('#6366f1',this)" style="width:32px;height:32px;border-radius:50%;background:#6366f1;cursor:pointer;border:3px solid #6366f1;box-shadow:0 0 0 2px var(--bg);"></div>
+                <div onclick="setAccent('#8b5cf6',this)" style="width:32px;height:32px;border-radius:50%;background:#8b5cf6;cursor:pointer;border:3px solid transparent;"></div>
+                <div onclick="setAccent('#06b6d4',this)" style="width:32px;height:32px;border-radius:50%;background:#06b6d4;cursor:pointer;border:3px solid transparent;"></div>
+                <div onclick="setAccent('#10b981',this)" style="width:32px;height:32px;border-radius:50%;background:#10b981;cursor:pointer;border:3px solid transparent;"></div>
+                <div onclick="setAccent('#f59e0b',this)" style="width:32px;height:32px;border-radius:50%;background:#f59e0b;cursor:pointer;border:3px solid transparent;"></div>
+                <div onclick="setAccent('#ef4444',this)" style="width:32px;height:32px;border-radius:50%;background:#ef4444;cursor:pointer;border:3px solid transparent;"></div>
+              </div>
+            </div>
+
+            <div class="form-group" style="max-width:280px;">
+              <label class="form-label">Sidebar density</label>
+              <select class="form-control" onchange="showToast('Layout updated','info')">
+                <option>Comfortable (default)</option>
+                <option>Compact</option>
+                <option>Spacious</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Billing -->
+          <div class="settings-section card" id="billingSection">
+            <div class="section-title">Billing & Subscription</div>
+            <div class="section-desc">Manage your plan and payment details</div>
+
+            <!-- Current plan -->
+            <div style="background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.25);border-radius:var(--radius);padding:20px;margin-bottom:20px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+                <div>
+                  <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:4px;">Current Plan</div>
+                  <div style="font-size:22px;font-weight:700;">Pro <span style="color:var(--accent);">$49</span><span style="font-size:14px;font-weight:400;color:var(--text-muted);">/mo</span></div>
+                  <div style="font-size:13px;color:var(--text-muted);margin-top:4px;">Renews on June 10, 2026</div>
+                </div>
+                <div style="display:flex;gap:8px;">
+                  <button class="btn btn-ghost btn-sm" onclick="showToast('Opening billing portal…','info')">Manage Plan</button>
+                  <button class="btn btn-primary btn-sm" onclick="showToast('Upgrading to Enterprise!','success')">Upgrade</button>
+                </div>
+              </div>
+              <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;">
+                <span class="badge badge-success"><i data-lucide="check" style="width:12px;height:12px;"></i> Unlimited users</span>
+                <span class="badge badge-success"><i data-lucide="check" style="width:12px;height:12px;"></i> Advanced analytics</span>
+                <span class="badge badge-success"><i data-lucide="check" style="width:12px;height:12px;"></i> Priority support</span>
+                <span class="badge badge-success"><i data-lucide="check" style="width:12px;height:12px;"></i> Custom domain</span>
+              </div>
+            </div>
+
+            <!-- Payment method -->
+            <div class="card-title" style="margin-bottom:12px;">Payment Method</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;background:var(--sidebar-bg);border:1px solid var(--card-border);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:16px;">
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div style="background:#1e3a8a;border-radius:4px;padding:4px 8px;font-size:11px;font-weight:700;color:#fff;letter-spacing:.05em;">VISA</div>
+                <div>
+                  <div style="font-weight:500;font-size:14px;">•••• •••• •••• 4242</div>
+                  <div style="font-size:12px;color:var(--text-muted);">Expires 08/2027</div>
+                </div>
+              </div>
+              <button class="btn btn-ghost btn-sm" onclick="showToast('Opening card editor…','info')">Update</button>
+            </div>
+
+            <button class="btn btn-ghost btn-sm" onclick="showToast('Adding new payment method…','info')">
+              <i data-lucide="plus"></i> Add payment method
+            </button>
+
+            <div class="settings-divider"></div>
+
+            <!-- Invoices -->
+            <div class="card-title" style="margin-bottom:12px;">Recent Invoices</div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Date</th><th>Amount</th><th>Status</th><th>Invoice</th></tr></thead>
+                <tbody>
+                  <tr><td>May 10, 2026</td><td>$49.00</td><td><span class="badge badge-success">Paid</span></td><td><a href="#" class="text-accent text-sm" onclick="showToast('Downloading invoice…','info');return false;">Download</a></td></tr>
+                  <tr><td>Apr 10, 2026</td><td>$49.00</td><td><span class="badge badge-success">Paid</span></td><td><a href="#" class="text-accent text-sm" onclick="showToast('Downloading invoice…','info');return false;">Download</a></td></tr>
+                  <tr><td>Mar 10, 2026</td><td>$49.00</td><td><span class="badge badge-success">Paid</span></td><td><a href="#" class="text-accent text-sm" onclick="showToast('Downloading invoice…','info');return false;">Download</a></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- API Keys -->
+          <div class="settings-section card" id="apiSection">
+            <div class="section-title">API Keys</div>
+            <div class="section-desc">Manage API keys for programmatic access</div>
+
+            <div style="background:var(--sidebar-bg);border:1px solid var(--card-border);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+              <div>
+                <div style="font-size:13px;font-weight:600;margin-bottom:4px;">Production API Key</div>
+                <code style="font-size:13px;color:var(--text-muted);font-family:monospace;">dk_prod_••••••••••••••••Xk9p</code>
+              </div>
+              <div style="display:flex;gap:8px;">
+                <button class="btn btn-ghost btn-sm" onclick="showToast('Key copied to clipboard!','success')">
+                  <i data-lucide="copy" style="width:14px;height:14px;"></i> Copy
+                </button>
+                <button class="btn btn-sm" style="background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.2);" onclick="showToast('API key revoked','danger')">Revoke</button>
+              </div>
+            </div>
+
+            <div style="background:var(--sidebar-bg);border:1px solid var(--card-border);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+              <div>
+                <div style="font-size:13px;font-weight:600;margin-bottom:4px;">Development API Key</div>
+                <code style="font-size:13px;color:var(--text-muted);font-family:monospace;">dk_dev_••••••••••••••••mR3t</code>
+              </div>
+              <div style="display:flex;gap:8px;">
+                <button class="btn btn-ghost btn-sm" onclick="showToast('Key copied to clipboard!','success')">
+                  <i data-lucide="copy" style="width:14px;height:14px;"></i> Copy
+                </button>
+                <button class="btn btn-sm" style="background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.2);" onclick="showToast('API key revoked','danger')">Revoke</button>
+              </div>
+            </div>
+
+            <button class="btn btn-primary btn-sm" onclick="showToast('New API key generated!','success')">
+              <i data-lucide="plus"></i> Generate new key
+            </button>
+          </div>
+
+          <!-- Danger Zone -->
+          <div class="settings-section card" id="dangerSection">
+            <div class="section-title">Danger Zone</div>
+            <div class="section-desc">These actions are permanent and cannot be undone</div>
+
+            <div class="danger-zone" style="margin-bottom:16px;">
+              <div class="danger-title">Export account data</div>
+              <p>Download a copy of all your data including profile, settings, and history.</p>
+              <button class="btn btn-ghost btn-sm" onclick="showToast('Data export started — you will receive an email shortly','info')">
+                <i data-lucide="download"></i> Export my data
+              </button>
+            </div>
+
+            <div class="danger-zone" style="margin-bottom:16px;">
+              <div class="danger-title">Transfer ownership</div>
+              <p>Transfer your account and all associated data to another team member.</p>
+              <button class="btn btn-ghost btn-sm" onclick="showToast('Opening transfer wizard…','info')">
+                <i data-lucide="user-check"></i> Transfer ownership
+              </button>
+            </div>
+
+            <div class="danger-zone">
+              <div class="danger-title">Delete account</div>
+              <p>Permanently delete your account and remove all data from our servers. This cannot be undone.</p>
+              <button class="btn btn-danger btn-sm" onclick="confirmDelete()">
+                <i data-lucide="trash-2"></i> Delete my account
+              </button>
+            </div>
+          </div>
+
+        </div><!-- end settings content -->
+      </div><!-- end settings-layout -->
+    </main>
+  </div>
+</div>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/sidebar.js"></script>
+<script>
+  lucide.createIcons();
+
+  function saveProfile() {
+    const firstName = (document.getElementById('profileFirstName')?.value || '').trim();
+    const lastName  = (document.getElementById('profileLastName')?.value  || '').trim();
+    const email     = (document.getElementById('profileEmail')?.value     || '').trim();
+    let existing = {};
+    try { existing = JSON.parse(localStorage.getItem('dashkit_user') || '{}'); } catch(e) {}
+    localStorage.setItem('dashkit_user', JSON.stringify({
+      ...existing, firstName, lastName,
+      name: [firstName, lastName].filter(Boolean).join(' '), email
+    }));
+    const initials = ((firstName[0] || '') + (lastName ? lastName[0] : '')).toUpperCase() || 'U';
+    document.querySelectorAll('.user-avatar').forEach(el => el.textContent = initials);
+    document.querySelectorAll('.user-dropdown-name').forEach(el => el.textContent = [firstName, lastName].filter(Boolean).join(' '));
+    document.querySelectorAll('.user-dropdown-email').forEach(el => el.textContent = email);
+    const pfAvatar = document.querySelector('.avatar-large');
+    if (pfAvatar) pfAvatar.textContent = initials;
+    showToast('Profile saved successfully!', 'success');
+  }
+
+  function checkPw(val) {
+    const fill = document.getElementById('pwStrengthFill');
+    if (!fill) return;
+    let score = 0;
+    if (val.length >= 8) score++;
+    if (/[A-Z]/.test(val)) score++;
+    if (/[0-9]/.test(val)) score++;
+    if (/[^A-Za-z0-9]/.test(val)) score++;
+    const colors = ['#ef4444','#f59e0b','#38bdf8','#22c55e'];
+    const widths  = ['25%','50%','75%','100%'];
+    fill.style.width      = widths[score-1] || '0%';
+    fill.style.background = colors[score-1] || 'transparent';
+  }
+
+  function setThemeOption(theme) {
+    if (theme === 'system') {
+      theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    localStorage.setItem('dashkit_theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
+    showToast(`Theme set to ${theme}`, 'success');
+    /* Update border highlights */
+    ['themeDark','themeLight','themeSystem'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.borderColor = 'var(--card-border)';
+    });
+    const active = document.getElementById(`theme${theme.charAt(0).toUpperCase()+theme.slice(1)}`);
+    if (active) active.style.borderColor = 'var(--accent)';
+  }
+
+  function setAccent(color, el) {
+    document.documentElement.style.setProperty('--accent', color);
+    document.documentElement.style.setProperty('--accent-h', color);
+    document.querySelectorAll('[onclick^="setAccent"]').forEach(e => {
+      e.style.borderColor = 'transparent';
+    });
+    el.style.borderColor = color;
+    showToast('Accent color updated', 'success');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('sidebarNotifLink')?.addEventListener('click', e => {
+      e.preventDefault();
+      document.getElementById('notifPanel').classList.toggle('open');
+    });
+    document.getElementById('notifClear')?.addEventListener('click', () => {
+      document.querySelectorAll('.notif-item.unread').forEach(el => {
+        el.classList.remove('unread');
+        const dot = el.querySelector('.notif-dot-unread');
+        if (dot) dot.style.visibility = 'hidden';
+      });
+      document.getElementById('notifDot').style.display = 'none';
+      const badge = document.getElementById('sidebarNotifBadge');
+      if (badge) badge.style.display = 'none';
+    });
+  });
+
+  function confirmDelete() {
+    if (confirm('Are you absolutely sure? This will permanently delete your account and all data. This action CANNOT be undone.')) {
+      showToast('Account deletion scheduled. You will receive a confirmation email.', 'danger');
+    }
+  }
+</script>
+</body>
+</html>

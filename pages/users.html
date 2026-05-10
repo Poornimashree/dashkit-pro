@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Users — DashKit Pro</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dark.css">
+  <link rel="stylesheet" href="../css/light.css">
+  <script>(function(){document.documentElement.setAttribute('data-theme',localStorage.getItem('dashkit_theme')||'dark')})();</script>
+</head>
+<body>
+<div class="app-layout">
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">D</div>
+      <span class="logo-text">Dash<span>Kit</span> Pro</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a class="nav-item" href="dashboard.html"><i data-lucide="layout-dashboard"></i><span class="nav-label">Dashboard</span></a>
+      <a class="nav-item" href="analytics.html"><i data-lucide="bar-chart-2"></i><span class="nav-label">Analytics</span></a>
+      <a class="nav-item active" href="users.html"><i data-lucide="users"></i><span class="nav-label">Users</span><span class="badge">2.4k</span></a>
+      <div class="nav-section-label" style="margin-top:8px;">Content</div>
+      <a class="nav-item" href="reports.html"><i data-lucide="file-text"></i><span class="nav-label">Reports</span></a>
+      <a class="nav-item" href="billing.html"><i data-lucide="credit-card"></i><span class="nav-label">Billing</span></a>
+      <div class="nav-section-label" style="margin-top:8px;">System</div>
+      <a class="nav-item" href="settings.html"><i data-lucide="settings"></i><span class="nav-label">Settings</span></a>
+      <a class="nav-item" href="#"><i data-lucide="life-buoy"></i><span class="nav-label">Help & Support</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="nav-item" style="cursor:pointer;" onclick="window.location.href='login.html'">
+        <i data-lucide="log-out"></i><span class="nav-label">Sign out</span>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="app-header">
+      <button class="header-toggle" id="sidebarToggle"><i data-lucide="menu" style="width:20px;height:20px;"></i></button>
+      <div class="header-search">
+        <span class="search-icon"><i data-lucide="search"></i></span>
+        <input class="search-input" type="text" id="globalSearch" placeholder="Search anything..." oninput="filterTable()">
+      </div>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn"><i data-lucide="sun"></i></button>
+        <div class="dropdown-wrapper">
+          <button class="icon-btn" id="notifBtn"><i data-lucide="bell" style="width:18px;height:18px;"></i><span class="notif-dot"></span></button>
+          <div class="notif-panel" id="notifPanel">
+            <div class="notif-header">Notifications<span class="notif-clear" id="notifClear">Mark all read</span></div>
+            <div class="notif-item unread"><span class="notif-dot-unread"></span><div><div class="notif-text"><strong>New user signup</strong> — Alice Johnson joined</div><div class="notif-time">2 minutes ago</div></div></div>
+          </div>
+        </div>
+        <div class="dropdown-wrapper">
+          <div class="user-avatar" id="userAvatar">JD</div>
+          <div class="dropdown-menu" id="userDropdown">
+            <div style="padding:12px 14px;border-bottom:1px solid var(--card-border);"><div class="user-dropdown-name" style="font-weight:600;font-size:14px;">John Doe</div><div class="user-dropdown-email" style="font-size:12px;color:var(--text-muted);">john@company.com</div></div>
+            <a class="dropdown-item" href="settings.html"><i data-lucide="settings" style="width:14px;height:14px;"></i> Settings</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item danger" href="login.html"><i data-lucide="log-out" style="width:14px;height:14px;"></i> Sign out</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-body">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Users</h1>
+          <p class="page-subtitle">Manage and monitor all platform users</p>
+        </div>
+        <div class="flex gap-2">
+          <button class="btn btn-ghost btn-sm" onclick="showToast('Users exported!','success')">
+            <i data-lucide="download"></i> Export
+          </button>
+          <button class="btn btn-primary btn-sm" onclick="showToast('Invite sent!','success')">
+            <i data-lucide="user-plus"></i> Invite User
+          </button>
+        </div>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="users-toolbar">
+        <!-- Filter tabs -->
+        <div class="filter-tabs">
+          <button class="filter-tab active" onclick="filterBy('all', this)">All Users</button>
+          <button class="filter-tab" onclick="filterBy('active', this)">Active</button>
+          <button class="filter-tab" onclick="filterBy('inactive', this)">Inactive</button>
+          <button class="filter-tab" onclick="filterBy('admin', this)">Admin</button>
+        </div>
+
+        <!-- Search -->
+        <div style="position:relative;flex:1;max-width:280px;">
+          <i data-lucide="search" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--text-muted);"></i>
+          <input type="text" class="form-control" id="tableSearch" placeholder="Search by name, email…"
+            style="padding-left:32px;height:38px;font-size:13px;" oninput="filterTable()">
+        </div>
+
+        <select class="form-control" style="width:auto;height:38px;font-size:13px;" onchange="showToast('Filter applied','info')">
+          <option>All Roles</option>
+          <option>Admin</option>
+          <option>Editor</option>
+          <option>Viewer</option>
+        </select>
+      </div>
+
+      <!-- Bulk action bar -->
+      <div class="bulk-bar" id="bulkBar">
+        <i data-lucide="check-square" style="width:16px;height:16px;color:var(--accent);"></i>
+        <span id="bulkCount">0</span> users selected
+        <div style="margin-left:auto;display:flex;gap:8px;">
+          <button class="btn btn-ghost btn-sm" onclick="showToast('Role updated','success')">Change Role</button>
+          <button class="btn btn-danger btn-sm" onclick="confirmBulkDelete()">
+            <i data-lucide="trash-2"></i> Delete
+          </button>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div class="table-wrap">
+          <table id="usersTable">
+            <thead>
+              <tr>
+                <th style="width:40px;cursor:default;">
+                  <label class="checkbox-wrap" style="margin:0;">
+                    <input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)">
+                    <span class="checkbox-box"></span>
+                  </label>
+                </th>
+                <th data-sort="name">User</th>
+                <th data-sort="email">Email</th>
+                <th data-sort="role">Role</th>
+                <th data-sort="status">Status</th>
+                <th data-sort="joined">Joined</th>
+                <th style="cursor:default;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="usersBody">
+              <!-- Rows populated by JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+          <span class="pagination-info" id="paginationInfo">Showing 1–10 of 48 users</span>
+          <div class="pagination-btns" id="paginationBtns"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/sidebar.js"></script>
+<script>
+/* ── Users data ─────────────────────────────────────── */
+const COLORS = ['#6366f1','#22c55e','#f59e0b','#38bdf8','#ef4444','#a78bfa','#fb923c','#34d399'];
+const ROLES   = ['Admin','Editor','Viewer','Admin','Editor','Viewer','Viewer','Editor'];
+const STATUSES= ['active','active','inactive','active','active','inactive','active','active'];
+
+const allUsers = [
+  { name:'Alice Johnson',  email:'alice@acme.com',    role:'Admin',  status:'active',   joined:'Jan 12, 2024' },
+  { name:'Bob Smith',      email:'bob@techco.io',     role:'Editor', status:'active',   joined:'Feb 3, 2024'  },
+  { name:'Carol White',    email:'carol@startup.dev', role:'Viewer', status:'inactive', joined:'Feb 18, 2024' },
+  { name:'David Lee',      email:'david@enterprise.com',role:'Admin',status:'active',  joined:'Mar 5, 2024'  },
+  { name:'Emma Davis',     email:'emma@saas.co',      role:'Editor', status:'active',   joined:'Mar 22, 2024' },
+  { name:'Frank Miller',   email:'frank@example.com', role:'Viewer', status:'inactive', joined:'Apr 1, 2024'  },
+  { name:'Grace Kim',      email:'grace@webapp.io',   role:'Viewer', status:'active',   joined:'Apr 14, 2024' },
+  { name:'Henry Wilson',   email:'henry@cloud.dev',   role:'Editor', status:'active',   joined:'May 2, 2024'  },
+  { name:'Iris Chen',      email:'iris@platform.ai',  role:'Admin',  status:'active',   joined:'May 19, 2024' },
+  { name:'Jack Brown',     email:'jack@devtools.co',  role:'Viewer', status:'active',   joined:'Jun 7, 2024'  },
+  { name:'Karen Taylor',   email:'karen@agency.io',   role:'Editor', status:'inactive', joined:'Jun 25, 2024' },
+  { name:'Liam Anderson',  email:'liam@builders.dev', role:'Viewer', status:'active',   joined:'Jul 3, 2024'  },
+  { name:'Maya Patel',     email:'maya@techstart.io', role:'Admin',  status:'active',   joined:'Jul 21, 2024' },
+  { name:'Nathan Rogers',  email:'nathan@devco.com',  role:'Editor', status:'active',   joined:'Aug 8, 2024'  },
+  { name:'Olivia Scott',   email:'olivia@saas.io',    role:'Viewer', status:'active',   joined:'Aug 30, 2024' },
+  { name:'Peter Hall',     email:'peter@cloudfirst.io',role:'Editor',status:'inactive', joined:'Sep 12, 2024' },
+  { name:'Quinn Adams',    email:'quinn@webdev.co',   role:'Viewer', status:'active',   joined:'Sep 28, 2024' },
+  { name:'Rachel Green',   email:'rachel@appco.dev',  role:'Admin',  status:'active',   joined:'Oct 5, 2024'  },
+  { name:'Sam Torres',     email:'sam@platform.com',  role:'Editor', status:'active',   joined:'Oct 22, 2024' },
+  { name:'Tina Nguyen',    email:'tina@saaskit.io',   role:'Viewer', status:'active',   joined:'Nov 1, 2024'  },
+  { name:'Umar Hassan',    email:'umar@devhub.io',    role:'Viewer', status:'inactive', joined:'Nov 18, 2024' },
+  { name:'Victoria Stone', email:'vicky@startup.ai',  role:'Editor', status:'active',   joined:'Dec 3, 2024'  },
+  { name:'William Frost',  email:'will@techops.io',   role:'Admin',  status:'active',   joined:'Dec 20, 2024' },
+  { name:'Xena Park',      email:'xena@cloudware.dev',role:'Viewer', status:'active',   joined:'Jan 8, 2025'  },
+  { name:'Yusuf Ali',      email:'yusuf@webops.io',   role:'Editor', status:'active',   joined:'Jan 25, 2025' },
+  { name:'Zoe Clarke',     email:'zoe@devstudio.co',  role:'Viewer', status:'inactive', joined:'Feb 10, 2025' },
+  { name:'Aaron Bell',     email:'aaron@apphub.io',   role:'Viewer', status:'active',   joined:'Feb 27, 2025' },
+  { name:'Beth Moore',     email:'beth@platform.dev', role:'Editor', status:'active',   joined:'Mar 14, 2025' },
+  { name:'Chris Evans',    email:'chris@saasops.io',  role:'Admin',  status:'active',   joined:'Mar 31, 2025' },
+  { name:'Diana Prince',   email:'diana@webteam.co',  role:'Viewer', status:'active',   joined:'Apr 15, 2025' },
+  { name:'Ethan Hunt',     email:'ethan@cloudco.dev', role:'Editor', status:'inactive', joined:'May 2, 2025'  },
+  { name:'Fiona Green',    email:'fiona@devops.io',   role:'Viewer', status:'active',   joined:'May 19, 2025' },
+  { name:'George Clark',   email:'george@techlab.co', role:'Admin',  status:'active',   joined:'Jun 5, 2025'  },
+  { name:'Helen Chase',    email:'helen@appware.io',  role:'Editor', status:'active',   joined:'Jun 22, 2025' },
+  { name:'Ivan Petrov',    email:'ivan@webcraft.dev', role:'Viewer', status:'active',   joined:'Jul 9, 2025'  },
+  { name:'Julia Ross',     email:'julia@cloudkit.io', role:'Viewer', status:'inactive', joined:'Jul 26, 2025' },
+  { name:'Kevin Stone',    email:'kevin@saaslab.co',  role:'Editor', status:'active',   joined:'Aug 12, 2025' },
+  { name:'Laura Page',     email:'laura@devhive.io',  role:'Viewer', status:'active',   joined:'Aug 29, 2025' },
+  { name:'Marco Silva',    email:'marco@techbase.dev',role:'Admin',  status:'active',   joined:'Sep 15, 2025' },
+  { name:'Nora Walsh',     email:'nora@webspace.io',  role:'Editor', status:'active',   joined:'Oct 2, 2025'  },
+  { name:'Oscar Finn',     email:'oscar@cloudteam.co',role:'Viewer', status:'inactive', joined:'Oct 19, 2025' },
+  { name:'Pamela Hart',    email:'pam@saasbase.io',   role:'Viewer', status:'active',   joined:'Nov 5, 2025'  },
+  { name:'Quincy Fox',     email:'quincy@devops.co',  role:'Editor', status:'active',   joined:'Nov 22, 2025' },
+  { name:'Rita Morales',   email:'rita@weblab.dev',   role:'Admin',  status:'active',   joined:'Dec 8, 2025'  },
+  { name:'Steve Banner',   email:'steve@cloudapp.io', role:'Viewer', status:'active',   joined:'Dec 25, 2025' },
+  { name:'Tara Lane',      email:'tara@saaskit.dev',  role:'Editor', status:'inactive', joined:'Jan 11, 2026' },
+  { name:'Ulrich Berg',    email:'ulrich@techco.io',  role:'Viewer', status:'active',   joined:'Jan 28, 2026' },
+  { name:'Vera Gold',      email:'vera@appcloud.co',  role:'Admin',  status:'active',   joined:'Feb 14, 2026' },
+];
+
+/* ── State ────────────────────────────────────────── */
+let currentPage   = 1;
+const pageSize    = 10;
+let filteredUsers = [...allUsers];
+let activeFilter  = 'all';
+let selected      = new Set();
+
+/* ── Render ──────────────────────────────────────── */
+function initials(name) {
+  return name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+}
+
+function renderTable() {
+  const start = (currentPage - 1) * pageSize;
+  const page  = filteredUsers.slice(start, start + pageSize);
+  const tbody = document.getElementById('usersBody');
+
+  const roleClasses = { Admin:'badge-accent', Editor:'badge-warning', Viewer:'badge-muted' };
+
+  tbody.innerHTML = page.map((u, idx) => {
+    const globalIdx = start + idx;
+    const colorIdx  = globalIdx % COLORS.length;
+    const checked   = selected.has(u.email) ? 'checked' : '';
+    const statusBadge = u.status === 'active'
+      ? '<span class="badge badge-success"><span style="width:6px;height:6px;border-radius:50%;background:#22c55e;display:inline-block;"></span> Active</span>'
+      : '<span class="badge badge-muted">Inactive</span>';
+
+    return `<tr data-status="${u.status}" data-role="${u.role.toLowerCase()}">
+      <td>
+        <label class="checkbox-wrap" style="margin:0;">
+          <input type="checkbox" ${checked} onchange="toggleRow(this,'${u.email}')">
+          <span class="checkbox-box"></span>
+        </label>
+      </td>
+      <td>
+        <div class="user-cell">
+          <div class="avatar-sm" style="background:${COLORS[colorIdx]};">${initials(u.name)}</div>
+          <span class="font-medium">${u.name}</span>
+        </div>
+      </td>
+      <td class="text-secondary">${u.email}</td>
+      <td><span class="badge ${roleClasses[u.role]}">${u.role}</span></td>
+      <td>${statusBadge}</td>
+      <td class="text-secondary text-sm">${u.joined}</td>
+      <td>
+        <div class="flex gap-2">
+          <button class="btn btn-ghost btn-sm btn-icon" onclick="editUser('${u.email}')" title="Edit">
+            <i data-lucide="pencil" style="width:14px;height:14px;"></i>
+          </button>
+          <button class="btn btn-sm" style="background:rgba(239,68,68,.1);color:#ef4444;border:none;" onclick="deleteUser('${u.email}')" title="Delete">
+            <i data-lucide="trash-2" style="width:14px;height:14px;"></i>
+          </button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+
+  lucide.createIcons();
+  renderPagination();
+  updateSelectAll();
+  updateBulkBar();
+}
+
+function renderPagination() {
+  const total = filteredUsers.length;
+  const pages = Math.ceil(total / pageSize);
+  const start = (currentPage - 1) * pageSize + 1;
+  const end   = Math.min(currentPage * pageSize, total);
+
+  document.getElementById('paginationInfo').textContent =
+    `Showing ${start}–${end} of ${total} users`;
+
+  const btns = document.getElementById('paginationBtns');
+  let html = `<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>
+    <i data-lucide="chevron-left" style="width:14px;height:14px;"></i>
+  </button>`;
+
+  for (let i = 1; i <= pages; i++) {
+    if (i === 1 || i === pages || Math.abs(i - currentPage) <= 1) {
+      html += `<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
+    } else if (i === currentPage - 2 || i === currentPage + 2) {
+      html += `<span style="padding:0 4px;color:var(--text-muted);">…</span>`;
+    }
+  }
+
+  html += `<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===pages?'disabled':''}>
+    <i data-lucide="chevron-right" style="width:14px;height:14px;"></i>
+  </button>`;
+
+  btns.innerHTML = html;
+  lucide.createIcons();
+}
+
+function goPage(p) {
+  const pages = Math.ceil(filteredUsers.length / pageSize);
+  if (p < 1 || p > pages) return;
+  currentPage = p;
+  renderTable();
+}
+
+/* ── Filtering ────────────────────────────────────── */
+function filterBy(type, btn) {
+  activeFilter = type;
+  document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function filterTable() { applyFilters(); }
+
+function applyFilters() {
+  const search = (document.getElementById('tableSearch')?.value ||
+                  document.getElementById('globalSearch')?.value || '').toLowerCase();
+
+  filteredUsers = allUsers.filter(u => {
+    const matchFilter =
+      activeFilter === 'all' ||
+      (activeFilter === 'active'   && u.status === 'active') ||
+      (activeFilter === 'inactive' && u.status === 'inactive') ||
+      (activeFilter === 'admin'    && u.role === 'Admin');
+
+    const matchSearch = !search ||
+      u.name.toLowerCase().includes(search) ||
+      u.email.toLowerCase().includes(search) ||
+      u.role.toLowerCase().includes(search);
+
+    return matchFilter && matchSearch;
+  });
+
+  currentPage = 1;
+  renderTable();
+}
+
+/* ── Selection ────────────────────────────────────── */
+function toggleRow(checkbox, email) {
+  if (checkbox.checked) selected.add(email);
+  else selected.delete(email);
+  updateBulkBar();
+  updateSelectAll();
+}
+
+function toggleSelectAll(master) {
+  const page = filteredUsers.slice((currentPage-1)*pageSize, currentPage*pageSize);
+  page.forEach(u => master.checked ? selected.add(u.email) : selected.delete(u.email));
+  renderTable();
+}
+
+function updateSelectAll() {
+  const page    = filteredUsers.slice((currentPage-1)*pageSize, currentPage*pageSize);
+  const all     = page.every(u => selected.has(u.email));
+  const master  = document.getElementById('selectAll');
+  if (master) master.checked = all && page.length > 0;
+}
+
+function updateBulkBar() {
+  const bar   = document.getElementById('bulkBar');
+  const count = document.getElementById('bulkCount');
+  if (selected.size > 0) {
+    bar.classList.add('visible');
+    count.textContent = selected.size;
+  } else {
+    bar.classList.remove('visible');
+  }
+}
+
+/* ── Actions ──────────────────────────────────────── */
+function editUser(email) {
+  showToast(`Opening editor for ${email}`, 'info');
+}
+function deleteUser(email) {
+  if (confirm(`Delete user ${email}?`)) {
+    const idx = allUsers.findIndex(u => u.email === email);
+    if (idx !== -1) allUsers.splice(idx, 1);
+    selected.delete(email);
+    applyFilters();
+    showToast('User deleted', 'danger');
+  }
+}
+function confirmBulkDelete() {
+  if (!selected.size) return;
+  if (confirm(`Delete ${selected.size} users?`)) {
+    selected.forEach(email => {
+      const idx = allUsers.findIndex(u => u.email === email);
+      if (idx !== -1) allUsers.splice(idx, 1);
+    });
+    selected.clear();
+    applyFilters();
+    showToast(`${selected.size || 'Selected'} users deleted`, 'danger');
+  }
+}
+
+/* ── Init ─────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  renderTable();
+  document.getElementById('sidebarNotifLink')?.addEventListener('click', e => {
+    e.preventDefault();
+    document.getElementById('notifPanel').classList.toggle('open');
+  });
+  document.getElementById('notifClear')?.addEventListener('click', () => {
+    document.querySelectorAll('.notif-item.unread').forEach(el => {
+      el.classList.remove('unread');
+      const dot = el.querySelector('.notif-dot-unread');
+      if (dot) dot.style.visibility = 'hidden';
+    });
+    document.getElementById('notifDot').style.display = 'none';
+    const badge = document.getElementById('sidebarNotifBadge');
+    if (badge) badge.style.display = 'none';
+  });
+});
+</script>
+</body>
+</html>

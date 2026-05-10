@@ -1,0 +1,12 @@
+/* DashKit Pro — dark.css (dark mode, default) */
+[data-theme="dark"] {
+  --bg:           #0f1117;
+  --sidebar-bg:   #1a1d27;
+  --card-bg:      #1e2130;
+  --card-border:  #2d3148;
+  --input-bg:     #252840;
+  --input-border: #3a3f5c;
+  --text-primary:   #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted:     #64748b;
+}

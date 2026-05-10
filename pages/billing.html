@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Billing — DashKit Pro</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dark.css">
+  <link rel="stylesheet" href="../css/light.css">
+  <script>(function(){document.documentElement.setAttribute('data-theme',localStorage.getItem('dashkit_theme')||'dark')})();</script>
+</head>
+<body>
+<div class="app-layout">
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">D</div>
+      <span class="logo-text">Dash<span>Kit</span> Pro</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a class="nav-item" href="dashboard.html"><i data-lucide="layout-dashboard"></i><span class="nav-label">Dashboard</span></a>
+      <a class="nav-item" href="analytics.html"><i data-lucide="bar-chart-2"></i><span class="nav-label">Analytics</span></a>
+      <a class="nav-item" href="users.html"><i data-lucide="users"></i><span class="nav-label">Users</span><span class="badge">2.4k</span></a>
+      <div class="nav-section-label" style="margin-top:8px;">Content</div>
+      <a class="nav-item" href="reports.html"><i data-lucide="file-text"></i><span class="nav-label">Reports</span></a>
+      <a class="nav-item active" href="billing.html"><i data-lucide="credit-card"></i><span class="nav-label">Billing</span></a>
+      <div class="nav-section-label" style="margin-top:8px;">System</div>
+      <a class="nav-item" href="settings.html"><i data-lucide="settings"></i><span class="nav-label">Settings</span></a>
+      <a class="nav-item" href="#"><i data-lucide="life-buoy"></i><span class="nav-label">Help & Support</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="nav-item" style="cursor:pointer;" onclick="window.location.href='login.html'">
+        <i data-lucide="log-out"></i><span class="nav-label">Sign out</span>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="app-header">
+      <button class="header-toggle" id="sidebarToggle"><i data-lucide="menu" style="width:20px;height:20px;"></i></button>
+      <div class="header-search">
+        <span class="search-icon"><i data-lucide="search"></i></span>
+        <input class="search-input" type="text" placeholder="Search anything...">
+      </div>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn"><i data-lucide="sun"></i></button>
+        <div class="dropdown-wrapper">
+          <button class="icon-btn" id="notifBtn"><i data-lucide="bell" style="width:18px;height:18px;"></i><span class="notif-dot" id="notifDot"></span></button>
+          <div class="notif-panel" id="notifPanel">
+            <div class="notif-header">Notifications<span class="notif-clear" id="notifClear">Mark all read</span></div>
+            <div class="notif-item unread"><span class="notif-dot-unread"></span><div><div class="notif-text"><strong>New user registered</strong> — Alice Johnson joined</div><div class="notif-time">2 minutes ago</div></div></div>
+            <div class="notif-item unread"><span class="notif-dot-unread"></span><div><div class="notif-text"><strong>Revenue milestone reached</strong> — $100k MRR achieved!</div><div class="notif-time">1 hour ago</div></div></div>
+            <div class="notif-item unread"><span class="notif-dot-unread"></span><div><div class="notif-text"><strong>System update completed</strong> — v2.4.1 deployed</div><div class="notif-time">3 hours ago</div></div></div>
+            <div class="notif-item"><span class="notif-dot-unread" style="visibility:hidden;"></span><div><div class="notif-text"><strong>New report generated</strong> — Monthly Revenue Report ready</div><div class="notif-time">Yesterday</div></div></div>
+            <div class="notif-item"><span class="notif-dot-unread" style="visibility:hidden;"></span><div><div class="notif-text"><strong>Monthly backup complete</strong> — All data backed up</div><div class="notif-time">2 days ago</div></div></div>
+          </div>
+        </div>
+        <div class="dropdown-wrapper">
+          <div class="user-avatar" id="userAvatar">JD</div>
+          <div class="dropdown-menu" id="userDropdown">
+            <div style="padding:12px 14px;border-bottom:1px solid var(--card-border);"><div class="user-dropdown-name" style="font-weight:600;font-size:14px;">John Doe</div><div class="user-dropdown-email" style="font-size:12px;color:var(--text-muted);">john@company.com</div></div>
+            <a class="dropdown-item" href="settings.html"><i data-lucide="settings" style="width:14px;height:14px;"></i> Settings</a>
+            <a class="dropdown-item" href="billing.html"><i data-lucide="credit-card" style="width:14px;height:14px;"></i> Billing</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item danger" href="login.html"><i data-lucide="log-out" style="width:14px;height:14px;"></i> Sign out</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-body">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Billing</h1>
+          <p class="page-subtitle">Manage your subscription, payment, and invoices</p>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="showToast('Opening billing portal…','info')">
+          <i data-lucide="external-link"></i> Billing Portal
+        </button>
+      </div>
+
+      <!-- Current Plan Card -->
+      <div class="card" style="margin-bottom:20px;border-color:rgba(99,102,241,.3);background:linear-gradient(135deg,rgba(99,102,241,.06) 0%,var(--card-bg) 60%);">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+              <div style="background:var(--accent);border-radius:var(--radius-sm);padding:6px 12px;font-size:12px;font-weight:700;color:#fff;letter-spacing:.05em;">PRO PLAN</div>
+              <span class="badge badge-success"><i data-lucide="check" style="width:12px;height:12px;"></i> Active</span>
+            </div>
+            <div style="font-size:36px;font-weight:800;line-height:1;">
+              $49<span style="font-size:16px;font-weight:400;color:var(--text-muted);">/month</span>
+            </div>
+            <div style="font-size:13px;color:var(--text-muted);margin-top:6px;">
+              <i data-lucide="calendar" style="width:13px;height:13px;display:inline;vertical-align:middle;"></i>
+              Next billing date: <strong style="color:var(--text-secondary);">June 10, 2026</strong>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start;">
+            <button class="btn btn-primary" onclick="showToast('Opening upgrade flow…','info')">
+              <i data-lucide="zap"></i> Upgrade to Enterprise
+            </button>
+            <button class="btn btn-ghost" onclick="confirmCancel()">
+              <i data-lucide="x-circle"></i> Cancel Plan
+            </button>
+          </div>
+        </div>
+
+        <!-- Plan features -->
+        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:20px;padding-top:16px;border-top:1px solid var(--card-border);">
+          <span style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-secondary);">
+            <i data-lucide="check-circle" style="width:14px;height:14px;color:#22c55e;"></i> Unlimited users
+          </span>
+          <span style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-secondary);">
+            <i data-lucide="check-circle" style="width:14px;height:14px;color:#22c55e;"></i> Advanced analytics
+          </span>
+          <span style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-secondary);">
+            <i data-lucide="check-circle" style="width:14px;height:14px;color:#22c55e;"></i> Priority support (24/7)
+          </span>
+          <span style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-secondary);">
+            <i data-lucide="check-circle" style="width:14px;height:14px;color:#22c55e;"></i> Custom domain
+          </span>
+          <span style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-secondary);">
+            <i data-lucide="check-circle" style="width:14px;height:14px;color:#22c55e;"></i> API access
+          </span>
+          <span style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-secondary);">
+            <i data-lucide="check-circle" style="width:14px;height:14px;color:#22c55e;"></i> Team collaboration
+          </span>
+        </div>
+      </div>
+
+      <!-- Usage Stats -->
+      <div class="card" style="margin-bottom:20px;">
+        <div class="card-header">
+          <div class="card-title">Current Period Usage</div>
+          <span class="text-xs text-muted">Resets June 10, 2026</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;" class="usage-grid">
+
+          <!-- API Calls -->
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <div>
+                <div style="font-size:13px;font-weight:600;color:var(--text-primary);">API Calls</div>
+                <div style="font-size:12px;color:var(--text-muted);">82,450 / 200,000</div>
+              </div>
+              <span class="badge badge-success">41%</span>
+            </div>
+            <div style="height:8px;background:var(--card-border);border-radius:99px;overflow:hidden;">
+              <div style="height:100%;width:41%;background:#6366f1;border-radius:99px;transition:width .6s;"></div>
+            </div>
+          </div>
+
+          <!-- Storage -->
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <div>
+                <div style="font-size:13px;font-weight:600;color:var(--text-primary);">Storage</div>
+                <div style="font-size:12px;color:var(--text-muted);">18.4 GB / 50 GB</div>
+              </div>
+              <span class="badge badge-warning">37%</span>
+            </div>
+            <div style="height:8px;background:var(--card-border);border-radius:99px;overflow:hidden;">
+              <div style="height:100%;width:37%;background:#f59e0b;border-radius:99px;transition:width .6s;"></div>
+            </div>
+          </div>
+
+          <!-- Team Members -->
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <div>
+                <div style="font-size:13px;font-weight:600;color:var(--text-primary);">Team Members</div>
+                <div style="font-size:12px;color:var(--text-muted);">8 / Unlimited</div>
+              </div>
+              <span class="badge badge-accent">Pro</span>
+            </div>
+            <div style="height:8px;background:var(--card-border);border-radius:99px;overflow:hidden;">
+              <div style="height:100%;width:8%;background:#22c55e;border-radius:99px;transition:width .6s;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Extra usage stats -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px;padding-top:16px;border-top:1px solid var(--card-border);" class="usage-mini">
+          <div style="background:var(--sidebar-bg);border-radius:var(--radius-sm);padding:12px;text-align:center;">
+            <div class="text-xs text-muted">Emails Sent</div>
+            <div style="font-size:18px;font-weight:700;margin-top:4px;">4,210</div>
+            <div class="text-xs text-muted">/ 10,000</div>
+          </div>
+          <div style="background:var(--sidebar-bg);border-radius:var(--radius-sm);padding:12px;text-align:center;">
+            <div class="text-xs text-muted">Reports</div>
+            <div style="font-size:18px;font-weight:700;margin-top:4px;">5</div>
+            <div class="text-xs text-muted">/ Unlimited</div>
+          </div>
+          <div style="background:var(--sidebar-bg);border-radius:var(--radius-sm);padding:12px;text-align:center;">
+            <div class="text-xs text-muted">Webhooks</div>
+            <div style="font-size:18px;font-weight:700;margin-top:4px;">12</div>
+            <div class="text-xs text-muted">/ 50</div>
+          </div>
+          <div style="background:var(--sidebar-bg);border-radius:var(--radius-sm);padding:12px;text-align:center;">
+            <div class="text-xs text-muted">Uptime SLA</div>
+            <div style="font-size:18px;font-weight:700;margin-top:4px;color:#22c55e;">99.9%</div>
+            <div class="text-xs text-muted">Guaranteed</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment Method -->
+      <div class="card" style="margin-bottom:20px;">
+        <div class="card-header">
+          <div class="card-title">Payment Method</div>
+          <button class="btn btn-ghost btn-sm" onclick="showToast('Opening payment editor…','info')">
+            <i data-lucide="plus"></i> Add new
+          </button>
+        </div>
+
+        <!-- Visa card -->
+        <div style="display:flex;align-items:center;justify-content:space-between;background:var(--sidebar-bg);border:1px solid var(--card-border);border-radius:var(--radius);padding:16px 20px;gap:16px;flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;gap:16px;">
+            <!-- Card graphic -->
+            <div style="width:52px;height:34px;background:linear-gradient(135deg,#1d4ed8,#1e40af);border-radius:6px;display:flex;align-items:center;justify-content:center;">
+              <span style="font-size:10px;font-weight:800;color:#fff;letter-spacing:.05em;">VISA</span>
+            </div>
+            <div>
+              <div style="font-weight:600;font-size:15px;">•••• •••• •••• 4242</div>
+              <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">John Doe · Expires 08/2027</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span class="badge badge-success">Default</span>
+            <button class="btn btn-ghost btn-sm" onclick="showToast('Opening card editor…','info')">
+              <i data-lucide="pencil"></i> Update
+            </button>
+            <button class="btn btn-sm" style="background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.2);"
+              onclick="showToast('Cannot remove default payment method','warning')">Remove</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Invoice History -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Invoice History</div>
+          <button class="btn btn-ghost btn-sm" onclick="exportInvoices()">
+            <i data-lucide="download"></i> Export all
+          </button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Invoice #</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th style="cursor:default;">Download</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-medium text-accent">#INV-2026-005</td>
+                <td class="text-secondary">Pro Plan · May 2026</td>
+                <td class="text-secondary text-sm">May 10, 2026</td>
+                <td class="font-semibold">$49.00</td>
+                <td><span class="badge badge-success">Paid</span></td>
+                <td><a href="#" class="text-accent text-sm" onclick="showToast('Downloading invoice…','info');return false;"><i data-lucide="download" style="width:14px;height:14px;display:inline;vertical-align:middle;"></i> PDF</a></td>
+              </tr>
+              <tr>
+                <td class="font-medium text-accent">#INV-2026-004</td>
+                <td class="text-secondary">Pro Plan · Apr 2026</td>
+                <td class="text-secondary text-sm">Apr 10, 2026</td>
+                <td class="font-semibold">$49.00</td>
+                <td><span class="badge badge-success">Paid</span></td>
+                <td><a href="#" class="text-accent text-sm" onclick="showToast('Downloading invoice…','info');return false;"><i data-lucide="download" style="width:14px;height:14px;display:inline;vertical-align:middle;"></i> PDF</a></td>
+              </tr>
+              <tr>
+                <td class="font-medium text-accent">#INV-2026-003</td>
+                <td class="text-secondary">Pro Plan · Mar 2026</td>
+                <td class="text-secondary text-sm">Mar 10, 2026</td>
+                <td class="font-semibold">$49.00</td>
+                <td><span class="badge badge-success">Paid</span></td>
+                <td><a href="#" class="text-accent text-sm" onclick="showToast('Downloading invoice…','info');return false;"><i data-lucide="download" style="width:14px;height:14px;display:inline;vertical-align:middle;"></i> PDF</a></td>
+              </tr>
+              <tr>
+                <td class="font-medium text-accent">#INV-2026-002</td>
+                <td class="text-secondary">Pro Plan · Feb 2026</td>
+                <td class="text-secondary text-sm">Feb 10, 2026</td>
+                <td class="font-semibold">$49.00</td>
+                <td><span class="badge badge-success">Paid</span></td>
+                <td><a href="#" class="text-accent text-sm" onclick="showToast('Downloading invoice…','info');return false;"><i data-lucide="download" style="width:14px;height:14px;display:inline;vertical-align:middle;"></i> PDF</a></td>
+              </tr>
+              <tr>
+                <td class="font-medium text-accent">#INV-2026-001</td>
+                <td class="text-secondary">Pro Plan · Jan 2026</td>
+                <td class="text-secondary text-sm">Jan 10, 2026</td>
+                <td class="font-semibold">$49.00</td>
+                <td><span class="badge badge-success">Paid</span></td>
+                <td><a href="#" class="text-accent text-sm" onclick="showToast('Downloading invoice…','info');return false;"><i data-lucide="download" style="width:14px;height:14px;display:inline;vertical-align:middle;"></i> PDF</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/sidebar.js"></script>
+<script>
+  lucide.createIcons();
+
+  /* Sidebar grid responsiveness */
+  const s = document.createElement('style');
+  s.textContent = '@media(max-width:900px){.usage-grid{grid-template-columns:1fr!important}.usage-mini{grid-template-columns:repeat(2,1fr)!important}}';
+  document.head.appendChild(s);
+
+  function confirmCancel() {
+    if (confirm('Are you sure you want to cancel your Pro Plan? You will lose access to all Pro features at the end of the billing period.')) {
+      showToast('Plan cancellation scheduled. Access continues until June 10, 2026.', 'warning', 4000);
+    }
+  }
+
+  function exportInvoices() {
+    showToast('Exporting invoices…', 'info', 1500);
+    setTimeout(() => {
+      const date = new Date().toISOString().split('T')[0];
+      const csv = [
+        '"Invoice #","Description","Date","Amount","Status"',
+        '"#INV-2026-005","Pro Plan · May 2026","May 10, 2026","$49.00","Paid"',
+        '"#INV-2026-004","Pro Plan · Apr 2026","Apr 10, 2026","$49.00","Paid"',
+        '"#INV-2026-003","Pro Plan · Mar 2026","Mar 10, 2026","$49.00","Paid"',
+        '"#INV-2026-002","Pro Plan · Feb 2026","Feb 10, 2026","$49.00","Paid"',
+        '"#INV-2026-001","Pro Plan · Jan 2026","Jan 10, 2026","$49.00","Paid"',
+      ].join('\n');
+      const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
+      const url  = URL.createObjectURL(blob);
+      const a    = Object.assign(document.createElement('a'), { href:url, download:`dashkit-invoices-${date}.csv` });
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('Invoices exported!', 'success', 2000);
+    }, 800);
+  }
+
+  /* Sidebar notifications link */
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('sidebarNotifLink')?.addEventListener('click', e => {
+      e.preventDefault();
+      document.getElementById('notifPanel').classList.toggle('open');
+    });
+    document.getElementById('notifClear')?.addEventListener('click', () => {
+      document.querySelectorAll('.notif-item.unread').forEach(el => {
+        el.classList.remove('unread');
+        const dot = el.querySelector('.notif-dot-unread');
+        if (dot) dot.style.visibility = 'hidden';
+      });
+      document.getElementById('notifDot').style.display = 'none';
+      const badge = document.getElementById('sidebarNotifBadge');
+      if (badge) badge.style.display = 'none';
+    });
+  });
+</script>
+</body>
+</html>

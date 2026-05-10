@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — DashKit Pro</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dark.css">
+  <link rel="stylesheet" href="../css/light.css">
+  <script>
+    /* Apply saved theme before render to prevent flash */
+    (function(){
+      const t = localStorage.getItem('dashkit_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+</head>
+<body>
+  <div class="auth-layout">
+    <div class="auth-card fade-in">
+
+      <!-- Logo -->
+      <div class="auth-logo">
+        <div class="auth-logo-icon">D</div>
+        <span class="auth-logo-name">Dash<span>Kit</span> Pro</span>
+      </div>
+
+      <h1 class="auth-title">Welcome back</h1>
+      <p class="auth-subtitle">Sign in to your account to continue</p>
+
+      <!-- Social Login -->
+      <div class="social-btns">
+        <button class="social-btn" onclick="showToast('Google OAuth not configured in demo','info')">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+          Continue with Google
+        </button>
+        <button class="social-btn" onclick="showToast('GitHub OAuth not configured in demo','info')">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+          </svg>
+          Continue with GitHub
+        </button>
+      </div>
+
+      <div class="auth-divider">or continue with email</div>
+
+      <!-- Login Form -->
+      <form class="auth-form" id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label">Full name</label>
+          <div class="input-wrapper">
+            <span class="input-icon-left"><i data-lucide="user"></i></span>
+            <input type="text" class="form-control" id="loginName" placeholder="John Doe" required autocomplete="name">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Email address</label>
+          <div class="input-wrapper">
+            <span class="input-icon-left"><i data-lucide="mail"></i></span>
+            <input
+              type="email"
+              class="form-control"
+              id="loginEmail"
+              placeholder="you@company.com"
+              required
+              autocomplete="email"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <label class="form-label">Password</label>
+            <a href="#" class="text-sm text-accent" onclick="showToast('Password reset link sent!','success');return false;">Forgot password?</a>
+          </div>
+          <div class="input-wrapper">
+            <span class="input-icon-left"><i data-lucide="lock"></i></span>
+            <input
+              type="password"
+              class="form-control has-right-icon"
+              id="loginPassword"
+              placeholder="••••••••"
+              required
+              autocomplete="current-password"
+            >
+            <span class="input-icon-right toggle-password" id="pwToggle"
+              onclick="togglePassword('loginPassword','pwToggle')"
+              role="button" aria-label="Toggle password visibility">
+              <i data-lucide="eye"></i>
+            </span>
+          </div>
+        </div>
+
+        <label class="checkbox-wrap">
+          <input type="checkbox" id="remember">
+          <span class="checkbox-box"></span>
+          Remember me for 30 days
+        </label>
+
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:12px;">
+          <i data-lucide="log-in"></i>
+          Sign in
+        </button>
+      </form>
+
+      <p class="auth-footer">
+        Don't have an account? <a href="signup.html">Create one free</a>
+      </p>
+
+      <!-- Theme toggle -->
+      <div style="text-align:center;margin-top:16px;">
+        <button id="themeToggle" class="icon-btn" title="Toggle theme" style="margin:auto;">
+          <i data-lucide="sun"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    lucide.createIcons();
+
+    function togglePassword(inputId, toggleId) {
+      const input  = document.getElementById(inputId);
+      const toggle = document.getElementById(toggleId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        toggle.innerHTML = '<i data-lucide="eye-off"></i>';
+      } else {
+        input.type = 'password';
+        toggle.innerHTML = '<i data-lucide="eye"></i>';
+      }
+      lucide.createIcons();
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const name  = document.getElementById('loginName').value.trim();
+      const email = document.getElementById('loginEmail').value.trim();
+      const pass  = document.getElementById('loginPassword').value;
+      if (!name || !email || !pass) return;
+
+      const parts     = name.split(/\s+/);
+      const firstName = parts[0] || 'User';
+      const lastName  = parts.slice(1).join(' ') || '';
+      localStorage.setItem('dashkit_user', JSON.stringify({
+        firstName, lastName,
+        name: [firstName, lastName].filter(Boolean).join(' '),
+        email
+      }));
+
+      const btn = e.target.querySelector('[type=submit]');
+      btn.disabled = true;
+      btn.innerHTML = '<i data-lucide="loader-2" style="animation:spin .8s linear infinite;"></i> Signing in…';
+      lucide.createIcons();
+      setTimeout(() => { window.location.href = 'dashboard.html'; }, 1200);
+    }
+
+    /* Add spin keyframes */
+    const style = document.createElement('style');
+    style.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>

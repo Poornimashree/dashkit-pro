@@ -1,0 +1,52 @@
+/* DashKit Pro — light.css (light mode overrides) */
+[data-theme="light"] {
+  --bg:           #f1f5f9;
+  --sidebar-bg:   #ffffff;
+  --card-bg:      #ffffff;
+  --card-border:  #e2e8f0;
+  --input-bg:     #f8fafc;
+  --input-border: #cbd5e1;
+  --text-primary:   #0f172a;
+  --text-secondary: #475569;
+  --text-muted:     #94a3b8;
+  --shadow:    0 4px 20px rgba(0,0,0,.08);
+  --shadow-sm: 0 2px 8px  rgba(0,0,0,.05);
+}
+
+/* Light-mode specific overrides */
+[data-theme="light"] .sidebar {
+  box-shadow: 2px 0 12px rgba(0,0,0,.06);
+}
+[data-theme="light"] .app-header {
+  box-shadow: 0 1px 8px rgba(0,0,0,.06);
+}
+[data-theme="light"] thead th {
+  background: #f8fafc;
+}
+[data-theme="light"] tbody tr:hover {
+  background: rgba(99,102,241,.04);
+}
+[data-theme="light"] .kpi-card:hover {
+  box-shadow: 0 8px 24px rgba(99,102,241,.12);
+}
+[data-theme="light"] .social-btn {
+  background: #f8fafc;
+}
+[data-theme="light"] .auth-card {
+  box-shadow: 0 8px 32px rgba(0,0,0,.08);
+}
+[data-theme="light"] .filter-tabs {
+  background: #f8fafc;
+}
+[data-theme="light"] .date-range-btn {
+  background: #f8fafc;
+}
+[data-theme="light"] .icon-btn {
+  background: #f8fafc;
+}
+[data-theme="light"] .header-search input {
+  background: #f8fafc;
+}
+[data-theme="light"] .notif-item.unread {
+  background: rgba(99,102,241,.04);
+}

@@ -1,0 +1,26 @@
+# DashKit Pro .gitignore
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Distribution (if you bundle later)
+dist/
+build/

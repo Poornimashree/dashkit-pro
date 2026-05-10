@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — DashKit Pro</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dark.css">
+  <link rel="stylesheet" href="../css/light.css">
+  <script>(function(){document.documentElement.setAttribute('data-theme',localStorage.getItem('dashkit_theme')||'dark')})();</script>
+</head>
+<body>
+<div class="app-layout">
+
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">D</div>
+      <span class="logo-text">Dash<span>Kit</span> Pro</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a class="nav-item active" href="dashboard.html">
+        <i data-lucide="layout-dashboard"></i><span class="nav-label">Dashboard</span>
+      </a>
+      <a class="nav-item" href="analytics.html">
+        <i data-lucide="bar-chart-2"></i><span class="nav-label">Analytics</span>
+      </a>
+      <a class="nav-item" href="users.html">
+        <i data-lucide="users"></i><span class="nav-label">Users</span>
+        <span class="badge">2.4k</span>
+      </a>
+
+      <div class="nav-section-label" style="margin-top:8px;">Content</div>
+      <a class="nav-item" href="reports.html">
+        <i data-lucide="file-text"></i><span class="nav-label">Reports</span>
+      </a>
+      <!-- Notifications sidebar link opens the header panel -->
+      <a class="nav-item" href="billing.html">
+        <i data-lucide="credit-card"></i><span class="nav-label">Billing</span>
+      </a>
+
+      <div class="nav-section-label" style="margin-top:8px;">System</div>
+      <a class="nav-item" href="settings.html">
+        <i data-lucide="settings"></i><span class="nav-label">Settings</span>
+      </a>
+      <a class="nav-item" href="#">
+        <i data-lucide="life-buoy"></i><span class="nav-label">Help & Support</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="nav-item" style="cursor:pointer;" onclick="window.location.href='login.html'">
+        <i data-lucide="log-out"></i><span class="nav-label">Sign out</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ── -->
+  <div class="main-content">
+
+    <header class="app-header">
+      <button class="header-toggle" id="sidebarToggle" title="Toggle sidebar">
+        <i data-lucide="menu" style="width:20px;height:20px;"></i>
+      </button>
+
+      <div class="header-search">
+        <span class="search-icon"><i data-lucide="search"></i></span>
+        <input class="search-input" type="text" placeholder="Search anything..." onkeydown="if(event.key==='Enter')showToast('Search coming soon','info')">
+      </div>
+
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" title="Toggle theme">
+          <i data-lucide="sun"></i>
+        </button>
+
+        <!-- Notifications -->
+        <div class="dropdown-wrapper">
+          <button class="icon-btn" id="notifBtn" title="Notifications">
+            <i data-lucide="bell" style="width:18px;height:18px;"></i>
+            <span class="notif-dot" id="notifDot"></span>
+          </button>
+          <div class="notif-panel" id="notifPanel">
+            <div class="notif-header">
+              Notifications
+              <span class="notif-clear" id="notifClear">Mark all read</span>
+            </div>
+            <div class="notif-item unread" id="notif1">
+              <span class="notif-dot-unread" id="notifDot1"></span>
+              <div>
+                <div class="notif-text"><strong>New user registered</strong> — Alice Johnson joined the platform</div>
+                <div class="notif-time">2 minutes ago</div>
+              </div>
+            </div>
+            <div class="notif-item unread" id="notif2">
+              <span class="notif-dot-unread" id="notifDot2"></span>
+              <div>
+                <div class="notif-text"><strong>Revenue milestone reached</strong> — $100k MRR achieved!</div>
+                <div class="notif-time">1 hour ago</div>
+              </div>
+            </div>
+            <div class="notif-item unread" id="notif3">
+              <span class="notif-dot-unread" id="notifDot3"></span>
+              <div>
+                <div class="notif-text"><strong>System update completed</strong> — v2.4.1 deployed successfully</div>
+                <div class="notif-time">3 hours ago</div>
+              </div>
+            </div>
+            <div class="notif-item" id="notif4">
+              <span class="notif-dot-unread" style="visibility:hidden;"></span>
+              <div>
+                <div class="notif-text"><strong>New report generated</strong> — Monthly Revenue Report is ready</div>
+                <div class="notif-time">Yesterday</div>
+              </div>
+            </div>
+            <div class="notif-item" id="notif5">
+              <span class="notif-dot-unread" style="visibility:hidden;"></span>
+              <div>
+                <div class="notif-text"><strong>Monthly backup complete</strong> — All data backed up to S3</div>
+                <div class="notif-time">2 days ago</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- User menu -->
+        <div class="dropdown-wrapper">
+          <div class="user-avatar" id="userAvatar">JD</div>
+          <div class="dropdown-menu" id="userDropdown">
+            <div style="padding:12px 14px;border-bottom:1px solid var(--card-border);">
+              <div class="user-dropdown-name" style="font-weight:600;font-size:14px;">John Doe</div>
+              <div class="user-dropdown-email" style="font-size:12px;color:var(--text-muted);margin-top:2px;">john@company.com</div>
+            </div>
+            <a class="dropdown-item" href="settings.html"><i data-lucide="user" style="width:14px;height:14px;"></i> Profile</a>
+            <a class="dropdown-item" href="settings.html"><i data-lucide="settings" style="width:14px;height:14px;"></i> Settings</a>
+            <a class="dropdown-item" href="billing.html"><i data-lucide="credit-card" style="width:14px;height:14px;"></i> Billing</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item danger" href="login.html"><i data-lucide="log-out" style="width:14px;height:14px;"></i> Sign out</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Body -->
+    <main class="page-body">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Dashboard</h1>
+          <p class="page-subtitle">Welcome back, <span id="welcomeName">John</span>! Here's what's happening today.</p>
+        </div>
+        <div class="flex gap-2">
+          <button class="btn btn-ghost btn-sm" id="exportBtn" onclick="exportDashboardCSV()">
+            <i data-lucide="download"></i> Export
+          </button>
+          <button class="btn btn-primary btn-sm" onclick="openReportModal()">
+            <i data-lucide="plus"></i> New Report
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">Total Users</span>
+            <div class="kpi-icon" style="background:rgba(99,102,241,.15);">
+              <i data-lucide="users" style="width:20px;height:20px;color:#6366f1;"></i>
+            </div>
+          </div>
+          <div class="kpi-value" id="kpi-users">24,521</div>
+          <div class="kpi-change up">
+            <i data-lucide="trending-up"></i>+12.4% <span>vs last month</span>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">Revenue (MRR)</span>
+            <div class="kpi-icon" style="background:rgba(34,197,94,.15);">
+              <i data-lucide="dollar-sign" style="width:20px;height:20px;color:#22c55e;"></i>
+            </div>
+          </div>
+          <div class="kpi-value" id="kpi-revenue">$108.2k</div>
+          <div class="kpi-change up">
+            <i data-lucide="trending-up"></i>+8.1% <span>vs last month</span>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">Active Sessions</span>
+            <div class="kpi-icon" style="background:rgba(245,158,11,.15);">
+              <i data-lucide="activity" style="width:20px;height:20px;color:#f59e0b;"></i>
+            </div>
+          </div>
+          <div class="kpi-value" id="kpi-sessions">1,284</div>
+          <div class="kpi-change down">
+            <i data-lucide="trending-down"></i>-3.2% <span>vs last hour</span>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">Growth Rate</span>
+            <div class="kpi-icon" style="background:rgba(56,189,248,.15);">
+              <i data-lucide="percent" style="width:20px;height:20px;color:#38bdf8;"></i>
+            </div>
+          </div>
+          <div class="kpi-value" id="kpi-growth">18.7%</div>
+          <div class="kpi-change up">
+            <i data-lucide="trending-up"></i>+2.3% <span>vs last quarter</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="charts-grid">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Revenue Overview</div>
+              <div class="card-subtitle">Last 30 days · daily</div>
+            </div>
+            <select class="form-control" style="width:auto;padding:6px 10px;font-size:13px;" onchange="showToast('Date range updated','info')">
+              <option>Last 30 days</option>
+              <option>Last 7 days</option>
+              <option>Last 90 days</option>
+            </select>
+          </div>
+          <div class="chart-wrap">
+            <canvas id="revenueChart"></canvas>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Weekly Signups</div>
+              <div class="card-subtitle">This week</div>
+            </div>
+          </div>
+          <div class="chart-wrap" style="height:260px;">
+            <canvas id="signupsChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Row -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;" class="bottom-grid">
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Recent Activity</div>
+            <a href="#" class="text-sm text-accent">View all</a>
+          </div>
+          <div class="activity-feed">
+            <div class="activity-item">
+              <div class="activity-icon" style="background:rgba(99,102,241,.15);">
+                <i data-lucide="user-plus" style="color:#6366f1;"></i>
+              </div>
+              <div class="activity-body">
+                <div class="activity-text"><strong>Alice Johnson</strong> signed up as a new user</div>
+                <div class="activity-time">2 minutes ago</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon" style="background:rgba(34,197,94,.15);">
+                <i data-lucide="credit-card" style="color:#22c55e;"></i>
+              </div>
+              <div class="activity-body">
+                <div class="activity-text"><strong>Pro Plan</strong> subscription renewed by Bob Smith</div>
+                <div class="activity-time">18 minutes ago</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon" style="background:rgba(239,68,68,.15);">
+                <i data-lucide="alert-triangle" style="color:#ef4444;"></i>
+              </div>
+              <div class="activity-body">
+                <div class="activity-text"><strong>Error spike</strong> detected in API gateway (us-east-1)</div>
+                <div class="activity-time">45 minutes ago</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon" style="background:rgba(245,158,11,.15);">
+                <i data-lucide="shield" style="color:#f59e0b;"></i>
+              </div>
+              <div class="activity-body">
+                <div class="activity-text"><strong>Security</strong> — 2FA enabled by 3 new users</div>
+                <div class="activity-time">1 hour ago</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon" style="background:rgba(56,189,248,.15);">
+                <i data-lucide="git-branch" style="color:#38bdf8;"></i>
+              </div>
+              <div class="activity-body">
+                <div class="activity-text"><strong>v2.4.1</strong> deployed to production</div>
+                <div class="activity-time">3 hours ago</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon" style="background:rgba(99,102,241,.15);">
+                <i data-lucide="star" style="color:#6366f1;"></i>
+              </div>
+              <div class="activity-body">
+                <div class="activity-text"><strong>5-star review</strong> received from Carol White</div>
+                <div class="activity-time">5 hours ago</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Top Traffic Sources</div>
+            <span class="badge badge-accent">Live</span>
+          </div>
+          <div class="stats-row"><span class="stats-label">Organic Search</span><div class="stats-bar-wrap"><div class="stats-bar" style="width:72%;background:#6366f1;"></div></div><span class="stats-value">38.4%</span></div>
+          <div class="stats-row"><span class="stats-label">Direct</span><div class="stats-bar-wrap"><div class="stats-bar" style="width:45%;background:#22c55e;"></div></div><span class="stats-value">23.9%</span></div>
+          <div class="stats-row"><span class="stats-label">Referral</span><div class="stats-bar-wrap"><div class="stats-bar" style="width:34%;background:#f59e0b;"></div></div><span class="stats-value">17.1%</span></div>
+          <div class="stats-row"><span class="stats-label">Social Media</span><div class="stats-bar-wrap"><div class="stats-bar" style="width:23%;background:#38bdf8;"></div></div><span class="stats-value">12.2%</span></div>
+          <div class="stats-row"><span class="stats-label">Email Campaign</span><div class="stats-bar-wrap"><div class="stats-bar" style="width:16%;background:#a78bfa;"></div></div><span class="stats-value">8.4%</span></div>
+
+          <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--card-border);">
+            <div class="card-title" style="margin-bottom:12px;">Quick Stats</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div style="background:var(--sidebar-bg);border-radius:var(--radius-sm);padding:12px;"><div class="text-xs text-muted">Avg. Session</div><div style="font-size:18px;font-weight:700;margin-top:4px;">4m 32s</div></div>
+              <div style="background:var(--sidebar-bg);border-radius:var(--radius-sm);padding:12px;"><div class="text-xs text-muted">Bounce Rate</div><div style="font-size:18px;font-weight:700;margin-top:4px;">28.4%</div></div>
+              <div style="background:var(--sidebar-bg);border-radius:var(--radius-sm);padding:12px;"><div class="text-xs text-muted">Conversion</div><div style="font-size:18px;font-weight:700;margin-top:4px;color:#22c55e;">3.8%</div></div>
+              <div style="background:var(--sidebar-bg);border-radius:var(--radius-sm);padding:12px;"><div class="text-xs text-muted">Churn Rate</div><div style="font-size:18px;font-weight:700;margin-top:4px;color:#ef4444;">1.2%</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ── New Report Modal ── -->
+<div class="modal-backdrop" id="reportModal" onclick="closeReportModal(event)">
+  <div class="modal" role="dialog" aria-labelledby="modalTitle" aria-modal="true">
+    <div class="modal-header">
+      <span class="modal-title" id="modalTitle">Create New Report</span>
+      <button class="modal-close" onclick="closeReportModal()" aria-label="Close">
+        <i data-lucide="x" style="width:18px;height:18px;"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Report name <span style="color:var(--danger);">*</span></label>
+        <input type="text" class="form-control" id="reportName" placeholder="e.g. Monthly Revenue Report">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Report type</label>
+        <select class="form-control" id="reportType">
+          <option value="">Select a type…</option>
+          <option>Revenue</option>
+          <option>Users</option>
+          <option>Analytics</option>
+          <option>Custom</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Date range</label>
+        <div style="display:flex;gap:8px;">
+          <button type="button" class="date-range-btn active" onclick="selectRange(7,this)">Last 7 days</button>
+          <button type="button" class="date-range-btn" onclick="selectRange(30,this)">Last 30 days</button>
+          <button type="button" class="date-range-btn" onclick="selectRange(90,this)">Last 90 days</button>
+        </div>
+        <input type="hidden" id="reportRange" value="7">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description <span class="text-muted" style="font-weight:400;">(optional)</span></label>
+        <textarea class="form-control" id="reportDesc" rows="3" placeholder="Brief description of what this report covers…"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeReportModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="createReport()">
+        <i data-lucide="file-plus"></i> Create Report
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const style = document.createElement('style');
+  style.textContent = '@media(max-width:900px){.bottom-grid{grid-template-columns:1fr!important}} @keyframes spin{to{transform:rotate(360deg)}}';
+  document.head.appendChild(style);
+</script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/sidebar.js"></script>
+<script src="../js/charts.js"></script>
+<script>
+/* ── Export CSV ───────────────────────────────────── */
+function exportDashboardCSV() {
+  showToast('Exporting…', 'info', 1500);
+
+  setTimeout(() => {
+    const date = new Date().toISOString().split('T')[0];
+    const rows = [
+      ['Metric', 'Value', 'Change', 'Period'],
+      ['Total Users',     '24521',    '+12.4%', 'vs last month'],
+      ['Revenue (MRR)',   '$108,200', '+8.1%',  'vs last month'],
+      ['Active Sessions', '1284',     '-3.2%',  'vs last hour'],
+      ['Growth Rate',     '18.7%',    '+2.3%',  'vs last quarter'],
+    ];
+    const csv  = rows.map(r => r.map(v => `"${v}"`).join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = `dashkit-export-${date}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('Export complete!', 'success', 2000);
+  }, 800);
+}
+
+/* ── Report Modal ─────────────────────────────────── */
+function openReportModal() {
+  document.getElementById('reportModal').classList.add('open');
+  setTimeout(() => document.getElementById('reportName').focus(), 150);
+}
+
+function closeReportModal(e) {
+  if (e && e.target !== document.getElementById('reportModal')) return;
+  document.getElementById('reportModal').classList.remove('open');
+  /* reset */
+  document.getElementById('reportName').value = '';
+  document.getElementById('reportType').value = '';
+  document.getElementById('reportDesc').value  = '';
+}
+
+function selectRange(days, btn) {
+  document.querySelectorAll('#reportModal .date-range-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('reportRange').value = days;
+}
+
+function createReport() {
+  const name = document.getElementById('reportName').value.trim();
+  if (!name) {
+    document.getElementById('reportName').classList.add('error');
+    document.getElementById('reportName').focus();
+    return;
+  }
+  document.getElementById('reportName').classList.remove('error');
+  document.getElementById('reportModal').classList.remove('open');
+  showToast('Report created successfully!', 'success');
+}
+
+/* Close modal on Escape */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('reportModal').classList.remove('open');
+});
+
+/* ── Sidebar Notifications link ───────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  const sidebarLink = document.getElementById('sidebarNotifLink');
+  if (sidebarLink) {
+    sidebarLink.addEventListener('click', e => {
+      e.preventDefault();
+      const panel = document.getElementById('notifPanel');
+      if (panel) {
+        panel.classList.toggle('open');
+        /* close user dropdown if open */
+        document.getElementById('userDropdown')?.classList.remove('open');
+      }
+    });
+  }
+
+  /* ── Mark all read (also hides badge) ── */
+  document.getElementById('notifClear')?.addEventListener('click', () => {
+    document.querySelectorAll('.notif-item.unread').forEach(el => {
+      el.classList.remove('unread');
+      const dot = el.querySelector('.notif-dot-unread');
+      if (dot) dot.style.visibility = 'hidden';
+    });
+    document.getElementById('notifDot').style.display = 'none';
+    const badge = document.getElementById('sidebarNotifBadge');
+    if (badge) badge.style.display = 'none';
+  });
+
+  lucide.createIcons();
+});
+</script>
+</body>
+</html>
