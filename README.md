@@ -7,7 +7,7 @@
 > start building your actual product immediately.
 
 ## 🚀 Live Demo
-[View Demo](https://abood170.github.io/dashkit-pro/)
+[[View Demo](https://abood170.github.io/dashkit-pro/)](https://abood170.github.io/dashkit-pro/)
 
 ## 📦 Pages Included
 
